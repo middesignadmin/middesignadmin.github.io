@@ -1,0 +1,581 @@
+/* ==========================================================================
+   COMPONENTS — hero, service cards, gallery grid, contact tiles, forms
+   ========================================================================== */
+
+/* -- Content image ------------------------------------------------------ */
+
+.content-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-block: var(--space-md);
+  border-radius: 4px;
+}
+
+/* -- Hero --------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 50vh;
+  padding-block: var(--space-lg);
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  max-width: 36em;
+  margin-bottom: var(--space-md);
+}
+
+/* -- Service / teaser cards ----------------------------------------------
+   Used on Home to summarize Curtains / Wallpaper / Flooring */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-image {
+  aspect-ratio: 4 / 3;
+  background-color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+}
+
+.card-body {
+  padding: var(--space-md);
+}
+
+.card-body h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.card-body p {
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -- Portfolio gallery grid ------------------------------------------------
+   Thumbnails link to full-size images, opened via GLightbox (see js/main.js) */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-sm);
+}
+
+.gallery-item {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-base);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-item .gallery-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-xs) var(--space-sm);
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  color: #fff;
+  font-size: var(--fs-small);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.gallery-item:hover .gallery-caption {
+  opacity: 1;
+}
+
+/* Placeholder state before real photos are added */
+.gallery-item--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  text-align: center;
+  padding: var(--space-sm);
+  border: 1px dashed var(--color-border);
+}
+
+@media (max-width: 540px) {
+  .gallery-grid {
+    gap: var(--space-xs);
+  }
+}
+
+/* -- Portfolio category groups -------------------------------------------- */
+
+.portfolio-group {
+  margin-bottom: var(--space-xl);
+  scroll-margin-top: 5rem; /* clears the sticky header (~65px) */
+}
+
+.portfolio-group:last-child {
+  margin-bottom: 0;
+}
+
+.portfolio-group-heading {
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* -- Contact tiles ------------------------------------------------------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.contact-tile {
+  text-align: center;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.contact-tile h3 {
+  font-size: var(--fs-body);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-xs);
+}
+
+.contact-tile p,
+.contact-tile a {
+  color: var(--color-text-muted);
+}
+
+/* LINE tile */
+.contact-tile--line .line-qr {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: var(--space-sm) auto;
+}
+
+.line-add-btn {
+  display: inline-block;
+  margin-bottom: var(--space-xs);
+}
+
+.line-add-btn img {
+  display: block;
+  width: 160px;
+  height: auto;
+}
+
+.line-id {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.line-id span {
+  display: block;
+  font-size: 0.85em;
+}
+
+@media (max-width: 720px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -- Forms ---------------------------------------------------------------
+   Styling only — wiring to a form backend (e.g. Formspree) is a later step */
+
+.form-field {
+  margin-bottom: var(--space-md);
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 0.75em;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: var(--fs-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 8em;
+}
+
+/* ── Editorial blocks (product pages) ─────────────────── */
+
+.editorial-block {
+  max-width: 42em;
+  margin-bottom: var(--space-lg);
+}
+
+.editorial-block:last-child {
+  margin-bottom: 0;
+}
+
+.editorial-text {
+  margin-bottom: var(--space-md);
+}
+
+.editorial-image {
+  margin: 0;
+}
+
+.editorial-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+}
+
+.editorial-image figcaption {
+  margin-top: var(--space-xs);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* ── Style feature rows (text + image side-by-side, e.g. curtain styles) ── */
+
+.style-feature {
+  margin-bottom: var(--space-lg);
+}
+.style-feature:last-child {
+  margin-bottom: 0;
+}
+
+.style-feature__row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+  margin-top: var(--space-xs);
+}
+
+.style-feature__media img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+  transition: transform var(--transition-base);
+}
+
+a.style-feature__media {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+a.style-feature__media:hover img {
+  transform: scale(1.05);
+}
+
+.style-feature__media--placeholder {
+  aspect-ratio: 5 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-sm);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+}
+
+@media (max-width: 700px) {
+  .style-feature__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -- Floating action buttons (LINE / back-to-top) -------------------------- */
+.float-buttons {
+  position: fixed;
+  right: var(--space-sm);
+  bottom: 0;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.float-btn {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  transition: transform var(--transition-fast), opacity var(--transition-fast), visibility var(--transition-fast);
+}
+
+.float-btn:hover {
+  transform: translateY(-2px);
+}
+
+.float-btn--line {
+  background-color: #06C755;
+  overflow: hidden;
+}
+
+.float-btn--line img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.float-btn--top {
+  background-color: var(--color-navy);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.float-btn--top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media (max-width: 720px) {
+  .float-buttons {
+    bottom: var(--space-md);
+  }
+
+  .float-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .float-btn--top {
+    display: none;
+  }
+}
+
+/* -- Product banner image -------------------------------------------------- */
+.product-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.product-banner-wrap + .section {
+  padding-top: var(--space-sm);
+}
+
+/* -- Contact CTA buttons (phone + LINE) ------------------------------------ */
+.contact-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-block: var(--space-md);
+}
+
+@media (min-width: 721px) {
+  .contact-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.contact-cta__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  min-width: 260px;
+  padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+  background-color: var(--color-navy);
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: filter var(--transition-fast), transform var(--transition-fast);
+}
+
+.contact-cta__btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.contact-cta__label {
+  flex: 1;
+}
+
+.contact-cta__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.contact-cta__icon--line {
+  background-color: #06C755;
+  overflow: hidden;
+  padding: 0;
+}
+
+.contact-cta__icon--line img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* -- Process timeline steps ----------------------------------------------- */
+
+/* -- Process box wrapper --------------------------------------------------- */
+
+.process-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  margin-block: var(--space-lg);
+}
+
+.process-box h3 {
+  margin-top: 0;
+}
+
+/* -- Process timeline steps ----------------------------------------------- */
+
+.process-steps {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.process-steps__step {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+  position: relative;
+}
+
+.process-steps__step:last-child {
+  padding-bottom: 0;
+}
+
+/* Vertical connector: this circle's centre to the next circle's centre */
+.process-steps__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  bottom: -20px;
+  left: 19px;
+  width: 1px;
+  height: auto;
+  background: var(--color-border);
+  z-index: 0;
+}
+
+.process-steps__number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: var(--fs-small);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.process-steps__content h4 {
+  margin-bottom: var(--space-xs);
+}
+
+.process-steps__desc {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}

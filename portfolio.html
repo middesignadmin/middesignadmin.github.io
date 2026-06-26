@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | MID Design Studio</title>
+  <meta name="description" content="Portfolio">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="vendor/glightbox/glightbox.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+
+    <section class="title-band">
+      <div class="container">
+        <div class="section-heading fade-in">
+          <h1>Portfolio</h1>
+          <p>[Placeholder — short intro line about the projects shown below.]</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <!--
+        HOW TO ADD REAL PHOTOS — replace each placeholder block below with:
+
+        <a href="images/portfolio/curtains/living-room-01.jpg"
+           class="gallery-item glightbox"
+           data-gallery="curtains"
+           data-glightbox="title: Living room curtains; description: A short caption.">
+          <img src="images/thumbnails/curtains/living-room-01.jpg"
+               alt="Pleated curtains in a living room, pale linen fabric"
+               loading="lazy">
+          <span class="gallery-caption">Living room curtains</span>
+        </a>
+
+        Notes:
+        - href = full-size image (shown in lightbox on click)
+        - img src = small thumbnail (shown in grid) — see images/thumbnails/
+        - data-gallery should match the section name (e.g. "curtains", "flooring")
+          so the lightbox swipes only within that group
+        - alt text should describe the photo for screen readers/SEO
+        - loading="lazy" defers offscreen images for faster page load
+      -->
+
+      <section id="curtains" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Curtains</h2>
+        <div class="gallery-grid">
+          <a href="images/portfolio/curtains/living-room.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Living room curtains">
+            <img src="images/portfolio/curtains/living-room-thumb.jpg"
+                 alt="Pleated curtains in a living room"
+                 loading="lazy">
+            <span class="gallery-caption">Living room curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/staircase.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Staircase curtains">
+            <img src="images/portfolio/curtains/staircase-thumb.jpg"
+                 alt="Curtains installed near a staircase"
+                 loading="lazy">
+            <span class="gallery-caption">Staircase curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/bedroom.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Bedroom curtains">
+            <img src="images/portfolio/curtains/bedroom-thumb.jpg"
+                 alt="Curtains installed in a bedroom"
+                 loading="lazy">
+            <span class="gallery-caption">Bedroom curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/pink.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Pink curtains">
+            <img src="images/portfolio/curtains/pink-thumb.jpg"
+                 alt="Pink curtains"
+                 loading="lazy">
+            <span class="gallery-caption">Pink curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/crystal.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Crystal curtains">
+            <img src="images/portfolio/curtains/crystal-thumb.jpg"
+                 alt="Curtains with crystal-style detailing"
+                 loading="lazy">
+            <span class="gallery-caption">Crystal curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/shop.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Shop curtains">
+            <img src="images/portfolio/curtains/shop-thumb.jpg"
+                 alt="Curtains installed in a shop"
+                 loading="lazy">
+            <span class="gallery-caption">Shop curtains</span>
+          </a>
+          <a href="images/portfolio/curtains/staircase-dark.jpg"
+             class="gallery-item glightbox"
+             data-gallery="curtains"
+             data-glightbox="title: Staircase curtains, dark fabric">
+            <img src="images/portfolio/curtains/staircase-dark-thumb.jpg"
+                 alt="Dark fabric curtains installed near a staircase"
+                 loading="lazy">
+            <span class="gallery-caption">Staircase curtains</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- <section id="blinds" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Blinds</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item--placeholder">Blinds photo 1</div>
+          <div class="gallery-item gallery-item--placeholder">Blinds photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Blinds photo 3</div>
+        </div>
+      </section> -->
+
+      <!-- <section id="rollerblinds" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Roller Blinds</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item--placeholder">Roller blinds photo 1</div>
+          <div class="gallery-item gallery-item--placeholder">Roller blinds photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Roller blinds photo 3</div>
+        </div>
+      </section> -->
+
+      <section id="wallpaper" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Wallpaper</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item--placeholder">Wallpaper photo 1</div>
+          <div class="gallery-item gallery-item--placeholder">Wallpaper photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Wallpaper photo 3</div>
+        </div>
+      </section>
+
+      <!-- <section id="dividers" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Dividers</h2>
+        <div class="gallery-grid">
+          <a href="images/portfolio/dividers/decathlon.jpg"
+             class="gallery-item glightbox"
+             data-gallery="dividers"
+             data-glightbox="title: Room divider">
+            <img src="images/portfolio/dividers/decathlon-thumb.jpg"
+                 alt="Installed room divider"
+                 loading="lazy">
+            <span class="gallery-caption">Room divider</span>
+          </a>
+          <div class="gallery-item gallery-item--placeholder">Dividers photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Dividers photo 3</div>
+        </div>
+      </section> -->
+
+      <!-- <section id="flooring" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Flooring</h2>
+        <div class="gallery-grid">
+          <a href="images/portfolio/flooring/holy-floor.jpg"
+             class="gallery-item glightbox"
+             data-gallery="flooring"
+             data-glightbox="title: Floor">
+            <img src="images/portfolio/flooring/holy-floor-thumb.jpg"
+                 alt="Close-up of installed vinyl plank flooring with a warm wood finish"
+                 loading="lazy">
+            <span class="gallery-caption">Vinyl plank flooring</span>
+          </a>
+          <a href="images/portfolio/flooring/beautiful-floor.jpg"
+             class="gallery-item glightbox"
+             data-gallery="flooring"
+             data-glightbox="title: Vinyl plank flooring">
+            <img src="images/portfolio/flooring/beautiful-floor-thumb.jpg"
+                 alt="Close-up of installed vinyl plank flooring with a warm wood finish"
+                 loading="lazy">
+            <span class="gallery-caption">Vinyl plank flooring</span>
+          </a>
+          <a href="images/portfolio/flooring/floor-install.jpg"
+             class="gallery-item glightbox"
+             data-gallery="flooring"
+             data-glightbox="title: Flooring installation">
+            <img src="images/portfolio/flooring/floor-install-thumb.jpg"
+                 alt="Flooring installation in progress"
+                 loading="lazy">
+            <span class="gallery-caption">Flooring installation</span>
+          </a>
+          <a href="images/portfolio/flooring/after-install.jpg"
+             class="gallery-item glightbox"
+             data-gallery="flooring"
+             data-glightbox="title: Completed flooring">
+            <img src="images/portfolio/flooring/after-install-thumb.jpg"
+                 alt="Completed flooring after installation"
+                 loading="lazy">
+            <span class="gallery-caption">Completed flooring</span>
+          </a>
+        </div>
+      </section> -->
+
+      <!-- <section id="film-sticker" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Film &amp; Sticker</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item--placeholder">Film &amp; sticker photo 1</div>
+          <div class="gallery-item gallery-item--placeholder">Film &amp; sticker photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Film &amp; sticker photo 3</div>
+        </div>
+      </section> -->
+
+      <!-- <section id="other" class="portfolio-group fade-in">
+        <h2 class="portfolio-group-heading">Other</h2>
+        <div class="gallery-grid">
+          <div class="gallery-item gallery-item--placeholder">Other photo 1</div>
+          <div class="gallery-item gallery-item--placeholder">Other photo 2</div>
+          <div class="gallery-item gallery-item--placeholder">Other photo 3</div>
+        </div>
+      </section> -->
+
+    </section>
+
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="vendor/glightbox/glightbox.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

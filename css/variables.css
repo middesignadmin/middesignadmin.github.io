@@ -1,0 +1,69 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   This is the ONLY file you should need to edit to change the site's look.
+   Fonts, colors, spacing scale all live here as CSS custom properties.
+   Right now these are intentionally plain placeholder values —
+   swap them out once the real visual direction is chosen.
+   ========================================================================== */
+
+:root {
+  /* -- Colors --------------------------------------------------------------
+     Placeholder greyscale palette. Replace with your 2-3 chosen colors,
+     e.g. from Coolors. Keep the naming (bg / surface / text / accent)
+     so the rest of the CSS doesn't need to change, only these values. */
+  --color-bg: #FFFFFF;
+  --color-surface: #F0EBE1;      /* card backgrounds, alt sections */
+  --color-text: #1C1A17;
+  --color-text-muted: #7A7060;
+  --color-border: #DDD5C8;
+  --color-accent: #C9A84C;        /* buttons, links, highlights — antique gold */
+  --color-title-band: #F0F0F0;    /* light gray for page-title bands */
+  --color-accent-contrast: #0D1B2A; /* text/icons placed on top of accent */
+  --color-navy: #0D1B2A;          /* header, footer, dark sections */
+
+  /* -- Typography ------------------------------------------------------------
+     Placeholder: system fonts, no Google Fonts loaded yet.
+     When ready, add the Google Fonts <link> in each HTML <head>,
+     then change these two variables to the chosen font-family stacks. */
+  --font-heading: 'Sarabun', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Sarabun', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --fs-h1: clamp(2.25rem, 5vw, 4rem);
+  --fs-h2: clamp(1.75rem, 3.5vw, 2.75rem);
+  --fs-h3: clamp(1.05rem, 1.6vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+
+  --lh-heading: 1.1;
+  --lh-body: 1.6;
+
+  /* -- Spacing scale -------------------------------------------------------
+     Use these instead of one-off pixel values so rhythm stays consistent. */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 7rem;
+
+  /* -- Layout -------------------------------------------------------------- */
+  --max-width: 1200px;
+  --content-width: 60em;  /* ~960px — body copy reading column */
+  --gutter: var(--space-sm);
+  --radius: 4px;
+
+  /* -- Motion ---------------------------------------------------------------
+     Centralized so "subtle" stays subtle and consistent everywhere. */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 600ms ease;
+}
+
+/* Respect users who've asked for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,343 @@
+/* ==========================================================================
+   LAYOUT COMPONENTS — header / nav / footer
+   Shared markup across all pages (see partial duplicated in each .html file).
+   ========================================================================== */
+
+/* -- Header / Nav ----------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-navy);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-sm);
+}
+
+.site-logo {
+  font-family: 'Cormorant Garamond', 'Sarabun', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: var(--space-xs);
+  width: 44px;
+  height: 44px;
+  position: relative;
+}
+
+.nav-toggle span,
+.nav-toggle span::before,
+.nav-toggle span::after {
+  display: block;
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.85);
+  transform: translateX(-50%);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+.nav-toggle span { top: 50%; transform: translate(-50%, -50%); }
+.nav-toggle span::before { content: ""; top: -8px; }
+.nav-toggle span::after { content: ""; top: 8px; }
+
+.nav-toggle[aria-expanded="true"] span { background-color: transparent; }
+.nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.main-nav a {
+  font-size: var(--fs-small);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-block: var(--space-xs);
+  position: relative;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color var(--transition-fast);
+}
+
+.main-nav a:hover {
+  color: var(--color-accent);
+}
+
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-fast);
+}
+
+.main-nav a:hover::after,
+.main-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* -- Products dropdown ------------------------------------------------------- */
+
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: var(--fs-small);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  padding-block: var(--space-xs);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  transition: color var(--transition-fast);
+}
+
+.dropdown-toggle:hover,
+.has-dropdown:hover .dropdown-toggle {
+  color: var(--color-accent);
+}
+
+.dropdown-toggle .fa-chevron-down {
+  font-size: 0.7em;
+  transition: transform var(--transition-fast);
+}
+
+.has-dropdown:hover .dropdown-toggle .fa-chevron-down,
+.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 180px;
+  background-color: var(--color-navy);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: var(--radius);
+  padding-block: var(--space-xs);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
+  z-index: 200;
+}
+
+@media (min-width: 721px) {
+  .has-dropdown:hover .dropdown,
+  .has-dropdown:focus-within .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.dropdown li {
+  border: none;
+}
+
+.dropdown a {
+  display: block;
+  padding: 0.5em var(--space-sm);
+  font-size: var(--fs-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.dropdown a:hover,
+.dropdown a[aria-current="page"] {
+  color: var(--color-accent);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dropdown a::after {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .main-nav {
+    position: fixed;
+    inset: 0;
+    top: 65px;
+    background-color: var(--color-navy);
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
+  }
+
+  .main-nav.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-md) var(--gutter);
+  }
+
+  .main-nav li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .main-nav a {
+    display: block;
+    padding-block: var(--space-sm);
+  }
+
+  .dropdown-toggle {
+    width: 100%;
+    padding-block: var(--space-sm);
+    justify-content: space-between;
+  }
+
+  .main-nav .dropdown {
+    position: static;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: none;
+    transition: none;
+  }
+
+  .has-dropdown.is-open .dropdown {
+    display: flex;
+  }
+
+  .dropdown a {
+    padding-left: calc(var(--space-sm) * 2);
+  }
+}
+
+/* -- Footer ------------------------------------------------------------------ */
+
+.site-footer {
+  background-color: var(--color-navy);
+  border-top: 1px solid rgba(201, 168, 76, 0.25);
+  padding-block: var(--space-lg) var(--space-md);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.footer-grid h4 {
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-grid address {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.footer-grid ul li {
+  margin-bottom: var(--space-xs);
+}
+
+.footer-contact-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--space-sm);
+}
+
+.footer-contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-sm);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-contact-list a:hover {
+  color: var(--color-accent);
+}
+
+.footer-contact-list i {
+  margin-top: 0.2em;
+  flex-shrink: 0;
+}
+
+.footer-line > img {
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.footer-social a {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.25rem;
+  transition: color var(--transition-fast);
+}
+
+.footer-social a:hover {
+  color: var(--color-accent);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--space-sm);
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+}

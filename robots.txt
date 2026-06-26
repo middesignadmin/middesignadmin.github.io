@@ -1,0 +1,10 @@
+# ROBOTS.TXT
+# Tells search engine crawlers what they're allowed to access.
+# This site has nothing to hide from search engines, so we allow everything.
+
+User-agent: *
+Allow: /
+
+# Points crawlers to the sitemap so they can discover all pages.
+# Replace the domain below with the real one once chosen (must match sitemap.xml).
+Sitemap: https://www.example.com/sitemap.xml
