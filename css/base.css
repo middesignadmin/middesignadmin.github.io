@@ -100,6 +100,10 @@ textarea:focus-visible {
   background-color: var(--color-surface);
 }
 
+.section + .section--alt {
+  padding-top: var(--space-lg);
+}
+
 .title-band {
   background-color: var(--color-title-band);
   padding-block: var(--space-sm);

@@ -298,12 +298,17 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+.footer-contact-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
 .footer-contact-list a:hover {
   color: var(--color-accent);
 }
 
 .footer-contact-list i {
-  margin-top: 0.2em;
   flex-shrink: 0;
 }
 

@@ -15,20 +15,28 @@
           <h4>Contact</h4>
           <ul class="footer-contact-list">
             <li>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+66815539456">081-553-9456</a>
+              <a href="tel:+66815539456">
+                <i class="fas fa-phone"></i>
+                081-553-9456
+              </a>
             </li>
             <li>
-              <i class="fas fa-phone"></i>
-              <a href="tel:+6621217449">02-121-7449</a>
+              <a href="tel:+6621217449">
+                <i class="fas fa-phone"></i>
+                02-121-7449
+              </a>
             </li>
             <li>
-              <i class="fas fa-envelope"></i>
-              <a href="mailto:contact@middesign.studio">contact@middesign.studio</a>
+              <a href="mailto:contact@middesign.studio">
+                <i class="fas fa-envelope"></i>
+                contact@middesign.studio
+              </a>
             </li>
             <li>
-              <i class="fab fa-line"></i>
-              <span>Line : @421ljqvz</span>
+              <a href="https://line.me/R/ti/p/%40421ljqvz" target="_blank" rel="noopener">
+                <i class="fab fa-line"></i>
+                Line : @421ljqvz
+              </a>
             </li>
           </ul>
           <div class="footer-line">
@@ -46,7 +54,7 @@
         <div>
           <h4>Follow</h4>
           <div class="footer-social">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.facebook.com/curtainmid/" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
           </div>
         </div>

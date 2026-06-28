@@ -7,4 +7,4 @@ Allow: /
 
 # Points crawlers to the sitemap so they can discover all pages.
 # Replace the domain below with the real one once chosen (must match sitemap.xml).
-Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://www.middesign.studio/sitemap.xml

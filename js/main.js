@@ -1,3 +1,10 @@
+// Google Tag Manager
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N33WDGSD');
+
 /* ==========================================================================
    MAIN.JS — vanilla JS only, no framework
    Handles: shared partials injection, mobile nav toggle, scroll fade-in
@@ -37,12 +44,45 @@ function markCurrentNavLink() {
 
 document.addEventListener('DOMContentLoaded', async function () {
 
+  /* -- Scroll fade-in reveals -----------------------------------------------
+     Set up immediately so elements already in the viewport are revealed
+     without waiting for async partial fetches. Called again after partials
+     load to pick up any newly injected .fade-in elements. */
+  function observeFadeIns() {
+    var fadeEls = document.querySelectorAll('.fade-in:not(.is-observed)');
+    if (!fadeEls.length) return;
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      fadeEls.forEach(function (el) {
+        el.classList.add('is-observed');
+        observer.observe(el);
+      });
+    } else {
+      // Fallback: no IntersectionObserver support — just show everything
+      fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+    }
+  }
+
+  observeFadeIns();
+
   /* -- Shared partials ------------------------------------------------------ */
   await Promise.all([
     loadPartial('header-placeholder', '/partials/header.frag'),
     loadPartial('footer-placeholder', '/partials/footer.frag'),
     loadDataPartials()
   ]);
+
+  // Pick up any .fade-in elements injected by partials (e.g. process-steps)
+  observeFadeIns();
 
   markCurrentNavLink();
 
@@ -84,32 +124,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
     }
   });
-
-  /* -- Scroll fade-in reveals -----------------------------------------------
-     Add the class "fade-in" to any element in HTML and it will fade/slide
-     into view the first time it enters the viewport. Respects
-     prefers-reduced-motion via the CSS media query in base.css. */
-  var fadeEls = document.querySelectorAll('.fade-in');
-
-  if ('IntersectionObserver' in window && fadeEls.length) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-
-    fadeEls.forEach(function (el) {
-      observer.observe(el);
-    });
-  } else {
-    // Fallback: no IntersectionObserver support — just show everything
-    fadeEls.forEach(function (el) {
-      el.classList.add('is-visible');
-    });
-  }
 
   /* -- Back-to-top floating button -------------------------------------------
      Fades in once the user scrolls past a threshold, scrolls smoothly to
