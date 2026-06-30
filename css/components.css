@@ -6,9 +6,11 @@
 
 .content-image {
   width: 100%;
+  max-width: 560px;
   height: auto;
   display: block;
   margin-block: var(--space-md);
+  margin-inline: auto;
   border-radius: 4px;
 }
 
