@@ -761,7 +761,6 @@ a.style-feature__media:hover img {
   width: 100%;
   aspect-ratio: 3 / 2;
   max-height: 45vh;
-  order: -1;
 }
 
 .hero-split__image img {
@@ -815,6 +814,7 @@ a.style-feature__media:hover img {
     flex: 0 0 40%;
     max-width: 40%;
     padding: var(--space-xl) var(--space-lg);
+    order: -1;
   }
 
   .hero-split__image {
@@ -823,7 +823,5 @@ a.style-feature__media:hover img {
     aspect-ratio: auto;
     max-height: none;
     height: auto;
-    order: 0;
   }
-}
 }
