@@ -37,6 +37,25 @@ h1 { font-size: var(--fs-h1); }
 h2 { font-size: var(--fs-h2); }
 h3 { font-size: var(--fs-h3); }
 
+/* Opt-in alt heading font — add class="heading-alt" to any h1-h4 to use it.
+   Qualified by tag so it reliably wins over same-specificity component
+   classes (e.g. .hero-split__title) regardless of stylesheet order. */
+:is(h1, h2, h3, h4).heading-alt {
+  font-family: var(--font-heading-alt);
+  font-weight: 600;
+}
+
+/* Step h1.heading-alt down to the next size in the scale (h2 size) */
+h1.heading-alt {
+  font-size: var(--fs-h2);
+}
+
+/* Step h2.heading-alt down to a size between h2 and h3 (h3 alone was too small).
+   Excludes .portfolio-group-heading, which already sets its own deliberate size. */
+h2.heading-alt:not(.portfolio-group-heading) {
+  font-size: var(--fs-h2-sm);
+}
+
 p {
   margin: 0 0 var(--space-sm) 0;
 }
@@ -133,6 +152,14 @@ textarea:focus-visible {
 .section-heading p {
   color: var(--color-text-muted);
   max-width: 40em;
+}
+
+.section-heading--center {
+  text-align: center;
+}
+
+.section-heading--center p {
+  margin-inline: auto;
 }
 
 .visually-hidden {

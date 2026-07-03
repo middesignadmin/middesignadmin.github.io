@@ -228,14 +228,24 @@
 
 .contact-channel__number,
 .contact-channel__email {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-heading-alt);
   font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 300;
   color: var(--color-text);
   text-decoration: none;
   letter-spacing: -0.01em;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
   transition: color var(--transition-fast);
+}
+
+.contact-channel__number i,
+.contact-channel__email i,
+.contact-channel__line-id i {
+  font-size: 0.5em;
+  color: currentColor;
+  flex-shrink: 0;
 }
 
 .contact-channel__email {
@@ -269,11 +279,14 @@
 }
 
 .contact-channel__line-id {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-heading-alt);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 300;
   color: var(--color-text);
   letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
 }
 
 .contact-channel__address {
@@ -741,6 +754,12 @@ a.style-feature__media:hover img {
   padding-inline: 0;
 }
 
+@media (min-width: 721px) {
+  .hero-image {
+    padding-inline: 6%;
+  }
+}
+
 .hero-image img {
   display: block;
   width: 100%;
@@ -802,6 +821,14 @@ a.style-feature__media:hover img {
   color: var(--color-text-muted);
   max-width: 32em;
   margin-bottom: 0;
+}
+
+.hero-split--center .hero-split__text {
+  text-align: center;
+}
+
+.hero-split--center .hero-split__desc {
+  margin-inline: auto;
 }
 
 @media (min-width: 768px) {
