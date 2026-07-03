@@ -59,7 +59,7 @@
 .nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
 
-.main-nav ul {
+.main-nav > ul {
   display: flex;
   align-items: center;
   gap: var(--space-md);

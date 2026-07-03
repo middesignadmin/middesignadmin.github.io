@@ -77,6 +77,24 @@
   margin-bottom: 0;
 }
 
+/* Modifier: for card photos supplied as 1:1 images (e.g. custom-print wallpaper) */
+.card img.card-img--square {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Opt-in inline link style for prose — use class="text-link" */
+.text-link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.text-link:hover {
+  color: var(--color-accent-contrast);
+}
+
 @media (max-width: 900px) {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -563,7 +581,7 @@ a.style-feature__media:hover img {
   flex-direction: column;
   align-items: center;
   gap: var(--space-xs);
-  padding-block: var(--space-xs);
+  padding-block: var(--space-md);
 }
 
 @media (min-width: 721px) {
@@ -642,7 +660,7 @@ a.style-feature__media:hover img {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: var(--space-md) var(--space-md) var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
   margin-block: var(--space-sm);
 }
 
@@ -712,4 +730,100 @@ a.style-feature__media:hover img {
   font-size: var(--fs-small);
   color: var(--color-text-muted);
   margin-bottom: 0;
+}
+
+/* -- Hero image (full-width, no text) ------------------------------------ */
+
+.hero-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 70vh;
+  padding-inline: 0;
+}
+
+.hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* -- Hero split (image + text column) ------------------------------------ */
+
+.hero-split {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 0;
+}
+
+.hero-split__image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  max-height: 45vh;
+  order: -1;
+}
+
+.hero-split__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-split__text {
+  background-color: #fcfbf9;
+  display: flex;
+  align-items: center;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.hero-split__label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-split__title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-heading);
+  margin-bottom: var(--space-sm);
+}
+
+.hero-split__desc {
+  font-size: 1.125rem;
+  line-height: var(--lh-body);
+  color: var(--color-text-muted);
+  max-width: 32em;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .hero-split {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .hero-split__text {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .hero-split__image {
+    flex: 0 0 60%;
+    max-width: 60%;
+    aspect-ratio: auto;
+    max-height: none;
+    height: auto;
+    order: 0;
+  }
+}
 }

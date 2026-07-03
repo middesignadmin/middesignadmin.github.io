@@ -96,6 +96,10 @@ textarea:focus-visible {
   padding-block: var(--space-xl);
 }
 
+.section--tight {
+  padding-block: calc(var(--space-xl) / 2);
+}
+
 .section--alt {
   background-color: var(--color-surface);
 }

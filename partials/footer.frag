@@ -53,10 +53,20 @@
 
         <div>
           <h4>Follow</h4>
-          <div class="footer-social">
-            <a href="https://www.facebook.com/curtainmid/" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          </div>
+          <ul class="footer-contact-list">
+            <li>
+              <a href="https://www.facebook.com/curtainmid/" target="_blank" rel="noopener">
+                <i class="fab fa-facebook"></i>
+                Facebook: CurtainMid
+              </a>
+            </li>
+            <!-- <li>
+              <a href="#" target="_blank" rel="noopener">
+                <i class="fab fa-instagram"></i>
+                Instagram: CurtainMid
+              </a>
+            </li> -->
+          </ul>
         </div>
       </div>
 
