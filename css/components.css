@@ -589,6 +589,11 @@ a.style-feature__media:hover img {
 }
 
 /* -- Contact CTA buttons (phone + LINE) ------------------------------------ */
+.contact-cta__heading {
+  margin-top: var(--space-lg);
+  scroll-margin-top: 5rem; /* clears the sticky header (~65px) */
+}
+
 .contact-cta {
   display: flex;
   flex-direction: column;
@@ -821,6 +826,10 @@ a.style-feature__media:hover img {
   color: var(--color-text-muted);
   max-width: 32em;
   margin-bottom: 0;
+}
+
+.hero-split__cta {
+  margin-top: var(--space-sm);
 }
 
 .hero-split--center .hero-split__text {
