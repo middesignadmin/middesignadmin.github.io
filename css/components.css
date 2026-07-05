@@ -48,9 +48,11 @@
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .card-image {
@@ -104,6 +106,55 @@
 @media (max-width: 600px) {
   .card-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Modifier: mobile-only peek carousel (CSS scroll-snap, no JS).
+   Desktop grid above is untouched; this only takes over at <=768px. */
+@media (max-width: 768px) {
+  .card-grid--carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-sm);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .card-grid--carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card-grid--carousel .card {
+    flex: 0 0 88%;
+    scroll-snap-align: center;
+  }
+
+  /* First/last card get extra edge margin so they align with the page's
+     normal content inset at rest (scroll position 0/end). Interior cards
+     have no such margin — if cards are reordered/added, only whichever
+     card ends up first/last picks this up automatically via :first-child/
+     :last-child, no per-card class needed. */
+  .card-grid--carousel .card:first-child {
+    margin-left: var(--gutter);
+  }
+
+  .card-grid--carousel .card:last-child {
+    margin-right: var(--gutter);
+  }
+
+  /* Cards off-screen to the right haven't triggered the scroll-reveal
+     IntersectionObserver yet (js/main.js), so dragging them into view
+     horizontally plays the fade/lift animation. Force the "revealed" state
+     here so horizontal scrolling never (re)triggers it. */
+  .card-grid--carousel .card.fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
