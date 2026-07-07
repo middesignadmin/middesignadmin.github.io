@@ -19,8 +19,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </button>
             <ul class="dropdown" aria-label="Products submenu">
               <li><a href="/products/curtains.html">ผ้าม่าน</a></li>
+              <li><a href="/products/blinds.html">ม่านม้วนและมู่ลี่</a></li>
               <!-- <li><a href="/products/rollerblinds.html">Roller Blinds</a></li> -->
-              <!-- <li><a href="/products/blinds.html">Blinds</a></li> -->
               <li><a href="/products/wallpaper.html">วอลล์เปเปอร์</a></li>
               <!-- <li><a href="/products/dividers.html">Dividers</a></li> -->
               <!-- <li><a href="/products/flooring.html">Flooring</a></li> -->
