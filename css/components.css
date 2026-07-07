@@ -55,6 +55,19 @@
   }
 }
 
+/* Modifier: makes the whole card clickable by stretching the card's
+   button link over the full card via a pseudo-element (stretched-link
+   pattern). Used on Home only — other pages' cards have no nested link. */
+.card--link {
+  position: relative;
+}
+
+.card--link .card-body .btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
 .card-image {
   aspect-ratio: 4 / 3;
   background-color: var(--color-surface);
