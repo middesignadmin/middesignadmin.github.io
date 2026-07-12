@@ -22,7 +22,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <li><a href="/products/blinds.html">ม่านม้วนและมู่ลี่</a></li>
               <!-- <li><a href="/products/rollerblinds.html">Roller Blinds</a></li> -->
               <li><a href="/products/wallpaper.html">วอลล์เปเปอร์</a></li>
-              <!-- <li><a href="/products/dividers.html">Dividers</a></li> -->
+              <li><a href="/products/dividers.html">ฉากกั้นห้อง</a></li>
               <!-- <li><a href="/products/flooring.html">Flooring</a></li> -->
               <!-- <li><a href="/products/film-sticker.html">Film &amp; Sticker</a></li> -->
               <!-- <li><a href="/products/other.html">Other</a></li> -->
