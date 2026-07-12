@@ -151,4 +151,59 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
+  /* -- Carousel pagination dots -----------------------------------------------
+     Mobile-only peek carousels (.card-grid--carousel, see css/components.css)
+     get a row of dots below them, one per card, generated here so counts
+     always match the actual cards. Active dot tracks the centered card via
+     an IntersectionObserver rooted on the carousel; clicking a dot scrolls
+     its card into view. */
+  document.querySelectorAll('.card-grid--carousel').forEach(function (carousel) {
+    var cards = Array.from(carousel.querySelectorAll(':scope > .card'));
+    if (!cards.length) return;
+
+    var dotsEl = document.createElement('div');
+    dotsEl.className = 'carousel-dots';
+
+    var dots = cards.map(function (card, i) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', function () {
+        card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      });
+      dotsEl.appendChild(dot);
+      return dot;
+    });
+
+    carousel.insertAdjacentElement('afterend', dotsEl);
+    dots[0].classList.add('is-active');
+
+    if ('IntersectionObserver' in window) {
+      var ratios = new Map();
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          ratios.set(entry.target, entry.intersectionRatio);
+        });
+
+        var activeIndex = 0;
+        var bestRatio = -1;
+        cards.forEach(function (card, i) {
+          var ratio = ratios.get(card) || 0;
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            activeIndex = i;
+          }
+        });
+
+        dots.forEach(function (dot, i) {
+          dot.classList.toggle('is-active', i === activeIndex);
+        });
+      }, { root: carousel, threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+      cards.forEach(function (card) { observer.observe(card); });
+    }
+  });
+
 });

@@ -41,6 +41,19 @@
   gap: var(--space-md);
 }
 
+/* Desktop-only 4-per-row variant. Tablet/mobile breakpoints and the
+   carousel modifier below still take over at their own widths. */
+.card-grid--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Pagination dots for the mobile carousel modifier below. Hidden by
+   default; only shown once the carousel takes over at <=768px. Generated
+   and populated by js/main.js, one dot per .card. */
+.carousel-dots {
+  display: none;
+}
+
 .card {
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
@@ -176,6 +189,29 @@
     transform: none;
     transition: none;
   }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    transition: transform var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .carousel-dot.is-active {
+    background-color: var(--color-accent);
+    transform: scale(1.4);
+  }
 }
 
 /* -- Portfolio gallery grid ------------------------------------------------
@@ -237,6 +273,67 @@
 @media (max-width: 540px) {
   .gallery-grid {
     gap: var(--space-xs);
+  }
+}
+
+/* -- Mosaic feature grid (recent projects — products/curtains.html) --------
+   One large feature photo spanning the full height, smaller ones stacked
+   beside it. Reuses .gallery-item for hover zoom/caption and GLightbox. */
+
+.mosaic-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--space-sm);
+  aspect-ratio: 3 / 2; /* gives the side rows real heights */
+  max-width: 50em;     /* keeps the section from filling the screen */
+}
+
+.mosaic-grid .gallery-item {
+  aspect-ratio: auto; /* cells define the shape, not the 1:1 from portfolio */
+}
+
+.mosaic-grid .gallery-item:first-child {
+  grid-row: 1 / -1;
+}
+
+/* Captions stay visible (hover-only is invisible on touch devices) */
+.mosaic-grid .gallery-caption {
+  opacity: 1;
+  padding-top: var(--space-md); /* taller gradient for legibility */
+  font-size: 1rem;
+}
+
+.mosaic-grid .gallery-caption strong {
+  display: block;
+  font-weight: 500;
+}
+
+.mosaic-grid .gallery-caption small {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.mosaic-more {
+  margin-top: var(--space-md);
+}
+
+@media (max-width: 600px) {
+  .mosaic-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: var(--space-xs);
+    aspect-ratio: auto;
+  }
+
+  .mosaic-grid .gallery-item:first-child {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  .mosaic-grid .gallery-item:not(:first-child) {
+    aspect-ratio: 1 / 1;
   }
 }
 
@@ -757,6 +854,121 @@ a.style-feature__media:hover img {
   margin-top: 0;
 }
 
+/* -- FAQ accordion ---------------------------------------------------------- */
+
+/* This heading has no intro paragraph, so the default .section-heading
+   margin-bottom (sized for heading+paragraph) reads as an oversized gap. */
+.faq .section-heading {
+  margin-bottom: var(--space-sm);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.faq-item {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+}
+
+.faq-item:hover,
+.faq-item:has(.faq-question:focus-visible) {
+  border-color: var(--color-accent);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  list-style: none;
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  font-family: var(--font-heading-alt);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  color: var(--color-text);
+  box-shadow: inset 3px 0 0 0 transparent;
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq-question:hover {
+    background-color: rgba(201, 168, 76, 0.08);
+    box-shadow: inset 3px 0 0 0 var(--color-accent);
+  }
+}
+
+.faq-question:focus-visible {
+  background-color: rgba(201, 168, 76, 0.08);
+  box-shadow: inset 3px 0 0 0 var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.faq-item[open] .faq-question {
+  background-color: rgba(201, 168, 76, 0.06);
+  box-shadow: inset 3px 0 0 0 var(--color-accent);
+}
+
+.faq-question .fa-plus {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  background-color: rgba(201, 168, 76, 0.12);
+  border-radius: 50%;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.faq-item[open] .faq-question .fa-plus {
+  transform: rotate(45deg);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.faq-answer > p {
+  margin: 0;
+  padding: 0 var(--space-md) var(--space-md);
+  color: var(--color-text-muted);
+  min-height: 0;
+}
+
+.faq-item:not([open]) .faq-answer,
+.faq-item[open] .faq-answer {
+  display: grid;
+  overflow: hidden;
+  transition: grid-template-rows var(--transition-base), opacity var(--transition-base);
+}
+
+.faq-item:not([open]) .faq-answer {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.faq-item[open] .faq-answer {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.faq-item:nth-child(1) { transition-delay: 0ms; }
+.faq-item:nth-child(2) { transition-delay: 60ms; }
+.faq-item:nth-child(3) { transition-delay: 120ms; }
+.faq-item:nth-child(4) { transition-delay: 180ms; }
+
 /* -- Process timeline steps ----------------------------------------------- */
 
 .process-steps {
@@ -819,6 +1031,105 @@ a.style-feature__media:hover img {
   font-size: var(--fs-small);
   color: var(--color-text-muted);
   margin-bottom: 0;
+}
+
+/* -- Process cards (v2, boxless) -------------------------------------------
+   Mobile: thumbnail + text rows. Desktop: 5 image cards in a row. */
+
+.process-cards {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.process-cards__step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.process-cards__media {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(120px, 38vw, 170px);
+  aspect-ratio: 4 / 3;
+  height: auto;
+  border-radius: 8px;
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-cards__media i {
+  font-size: 1.75rem;
+  color: var(--color-accent);
+}
+
+.process-cards__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.process-cards__number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-30%, -30%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading-alt);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.process-cards__body h4 {
+  margin-bottom: var(--space-xs);
+}
+
+.process-cards__desc {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+
+@media (min-width: 880px) {
+  .process-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .process-cards__step {
+    flex-direction: column;
+  }
+
+  .process-cards__media {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .process-cards__media i {
+    font-size: 2rem;
+  }
+
+  .process-cards__number {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
 }
 
 /* -- Hero image (full-width, no text) ------------------------------------ */

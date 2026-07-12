@@ -12,14 +12,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
+    rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&family=Kanit:wght@300;400;500;600&display=swap"
+      rel="stylesheet">
+  </noscript>
 
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
   <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preload" as="style" href="../vendor/glightbox/glightbox.min.css"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  </noscript>
 </head>
 
 <body>
@@ -28,7 +39,8 @@
 
   <div class="container hero-split hero-split--center">
     <div class="hero-split__image">
-      <img src="../images/products/curtains/hero-bedroom.webp" alt="ผ้าม่านในห้องนอนสไตล์โมเดิร์น">
+      <img src="../images/products/curtains/hero-bedroom.webp" alt="ผ้าม่านในห้องนอนสไตล์โมเดิร์น"
+        fetchpriority="high" width="1402" height="761" decoding="async">
     </div>
     <div class="hero-split__text">
       <div>
@@ -55,7 +67,7 @@
         </p>
       </div>
 
-      <div class="card-grid card-grid--carousel">
+      <div class="card-grid card-grid--carousel card-grid--cols-4">
         <div class="card fade-in">
           <img src="../images/products/curtains/pleated-curtain-card.webp" loading="lazy">
           <div class="card-body">
@@ -102,12 +114,18 @@
         </div>
 
         <div class="card fade-in">
+          <img src="../images/products/curtains/louis-curtain.webp" loading="lazy">
+          <div class="card-body">
+            <h3 class="heading-alt">ม่านหลุยส์ (Louis Curtains)</h3>
+            <p>ม่านหลุยส์ ผ้าม่านสไตล์คลาสสิกเหนือกาลเวลา โดดเด่นด้วยการตกแต่งอย่างประณีต ให้ความหรูหรา สง่างาม และยกระดับทุกพื้นที่อย่างมีระดับ</p>
+          </div>
+        </div>
+
+        <div class="card fade-in">
           <img src="../images/products/curtains/hospital-curtain.webp" loading="lazy">
           <div class="card-body">
             <h3 class="heading-alt">ม่านรางโรงพยาบาล</h3>
-            <p>ออกแบบสำหรับโรงพยาบาล คลินิก สถานพยาบาล และศูนย์ดูแลผู้สูงอายุ
-              ช่วยแบ่งพื้นที่ใช้งานและเพิ่มความเป็นส่วนตัวแก่ผู้ใช้งาน มีความแข็งแรง ทนทาน
-              และสามารถเลือกผ้าที่เหมาะสมกับการใช้งานเฉพาะทางได้</p>
+            <p>สำหรับโรงพยาบาล คลินิก และศูนย์ดูแลผู้สูงอายุ ช่วยแบ่งพื้นที่ เพิ่มความเป็นส่วนตัว แข็งแรง ทนทาน และเลือกผ้าให้เหมาะกับการใช้งานได้</p>
           </div>
         </div>
 
@@ -170,6 +188,43 @@
 
     <section class="container section section--tight">
       <div class="section-heading fade-in">
+        <h2 class="heading-alt">ผลงานล่าสุดของเรา</h2>
+        <p>ตัวอย่างงานติดตั้งผ้าม่านล่าสุดจากทีมงานของเรา</p>
+      </div>
+
+      <div class="mosaic-grid fade-in">
+        <a href="../images/portfolio/curtains/staircase.jpg"
+           class="gallery-item glightbox"
+           data-gallery="recent-curtains"
+           data-glightbox="title: บ้านเดี่ยว สุขุมวิท; description: ม่านจีบ ผ้าโปร่ง">
+          <img src="../images/featured/curtains/staircase-square.jpg"
+               alt="ม่านจีบผ้าโปร่งบริเวณโถงบันได"
+               loading="lazy">
+          <span class="gallery-caption"><strong>บ้านเดี่ยว สุขุมวิท</strong><small>ม่านจีบ ผ้าโปร่ง</small></span>
+        </a>
+        <a href="../images/featured/curtains/bedroom.jpg"
+           class="gallery-item glightbox"
+           data-gallery="recent-curtains"
+           data-glightbox="title: บ้านเดี่ยว รามอินทรา; description: ม่านลอนเทป ผ้าโปร่ง">
+          <img src="../images/featured/curtains/bedroom-square.webp"
+               alt="ม่านลอนเทป ผ้าโปร่ง"
+               loading="lazy">
+          <span class="gallery-caption"><strong>บ้านเดี่ยว รามอินทรา</strong><small>ม่านลอนเทป ผ้าโปร่ง</small></span>
+        </a>
+        <a href="../images/featured/curtains/curtain-louis1.webp"
+           class="gallery-item glightbox"
+           data-gallery="recent-curtains"
+           data-glightbox="title: ทาวน์โฮม บางนา; description: ม่านหลุยส์">
+          <img src="../images/featured/curtains/curtain-louis1-square.webp"
+               alt="ม่านหลุยส์"
+               loading="lazy">
+          <span class="gallery-caption"><strong>ทาวน์โฮม บางนา</strong><small>ม่านหลุยส์</small></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="container section section--tight">
+      <div class="section-heading fade-in">
         <h2 class="heading-alt">ขั้นตอนการให้บริการ</h2>
         <p>
           เราดูแลทุกขั้นตอนอย่างชัดเจนและเป็นระบบ ตั้งแต่เริ่มต้นจนจบงาน
@@ -177,18 +232,52 @@
         </p>
       </div>
 
-      <div class="fade-in content-width">
+      <div data-partial="process-steps-v2"></div>
 
-        <div data-partial="process-steps"></div>
+      <div class="fade-in content-width">
 
         <div data-partial="contact-cta"></div>
 
         <hr class="section-divider">
+      </div>
+    </section>
 
-        <h2 class="heading-alt">MID Design Studio</h2>
-        <p>ผ้าม่าน มู่ลี่ วอลเปเปอร์ ฟิล์มกรองแสง พื้น SPC และงานตกแต่งภายในครบวงจร ออกแบบ ผลิต และติดตั้งโดยทีมงานมืออาชีพ</p>
-        <p>อยากรู้จัก MID Design Studio มากขึ้น?</p>
-        <p><a href="../about.html" class="btn btn--secondary">เกี่ยวกับเรา</a></p>
+    <section class="container section section--tight faq">
+      <div class="section-heading fade-in">
+        <h2 class="heading-alt">คำถามที่พบบ่อย</h2>
+      </div>
+
+      <div class="faq-list content-width">
+        <details class="faq-item fade-in" name="curtains-faq">
+          <summary class="faq-question">
+            ผ้าม่านราคาเท่าไร?
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>เนื่องจากผ้าม่านทุกชุดผลิตตามขนาดและความต้องการของลูกค้า ราคาอาจแตกต่างกันตามประเภทผ้า รูปแบบผ้าม่าน ขนาดพื้นที่ และอุปกรณ์ที่เลือกใช้ สามารถติดต่อทีมงานเพื่อขอคำแนะนำและใบเสนอราคาได้ฟรี</p>
+          </div>
+        </details>
+
+        <details class="faq-item fade-in" name="curtains-faq">
+          <summary class="faq-question">
+            ให้บริการในพื้นที่ใดบ้าง?
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>ให้บริการในกรุงเทพฯ ปริมณฑล และพื้นที่ใกล้เคียง หากต้องการติดตั้งในจังหวัดอื่น สามารถติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติมได้</p>
+          </div>
+        </details>
+
+        <details class="faq-item fade-in" name="curtains-faq">
+          <summary class="faq-question">
+            ทำไมต้องเลือก MID Design Studio?
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+          </summary>
+          <div class="faq-answer">
+            <p>MID Design Studio ให้บริการผ้าม่านและงานตกแต่งภายในครบวงจร พร้อมดูแลตั้งแต่การให้คำปรึกษา การออกแบบ การเลือกวัสดุ การผลิต จนถึงการติดตั้ง โดยทีมงานมืออาชีพที่ใส่ใจในคุณภาพและรายละเอียดของทุกงาน</p>
+            <p><a href="../about.html" class="text-link">เกี่ยวกับเรา</a></p>
+          </div>
+        </details>
       </div>
     </section>
 

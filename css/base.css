@@ -127,6 +127,10 @@ textarea:focus-visible {
   padding-top: var(--space-lg);
 }
 
+.section--tight + .section--tight {
+  padding-top: 0;
+}
+
 .title-band {
   background-color: var(--color-title-band);
   padding-block: var(--space-sm);
@@ -145,8 +149,26 @@ textarea:focus-visible {
   padding-top: var(--space-sm);
 }
 
+.about-hero {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-sm);
+}
+
+.about-hero .content-image {
+  margin-top: 0;
+  margin-bottom: var(--space-sm);
+}
+
+.about-hero .section-heading {
+  margin-bottom: 0;
+}
+
+.about-hero + .section {
+  padding-top: var(--space-sm);
+}
+
 .section-heading {
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-md);
 }
 
 .section-heading p {
