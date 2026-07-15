@@ -4,7 +4,7 @@
 </div>
 
 <div class="contact-cta">
-  <a class="contact-cta__btn contact-cta__btn--phone" href="tel:+66815539456">
+  <a class="contact-cta__btn contact-cta__btn--phone" href="tel:0815539456">
     <span class="contact-cta__label">ติดต่อเราผ่านโทรศัพท์</span>
     <span class="contact-cta__icon"><i class="fas fa-phone"></i></span>
   </a>

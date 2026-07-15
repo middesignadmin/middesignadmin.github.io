@@ -15,13 +15,13 @@
           <h4>Contact</h4>
           <ul class="footer-contact-list">
             <li>
-              <a href="tel:+66815539456">
+              <a href="tel:0815539456">
                 <i class="fas fa-phone"></i>
                 081-553-9456
               </a>
             </li>
             <li>
-              <a href="tel:+6621217449">
+              <a href="tel:021217449">
                 <i class="fas fa-phone"></i>
                 02-121-7449
               </a>
