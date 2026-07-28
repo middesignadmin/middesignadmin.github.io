@@ -1,71 +1,80 @@
-/* ==========================================================================
-   DESIGN TOKENS
-   This is the ONLY file you should need to edit to change the site's look.
-   Fonts, colors, spacing scale all live here as CSS custom properties.
-   Right now these are intentionally plain placeholder values —
-   swap them out once the real visual direction is chosen.
-   ========================================================================== */
-
+/* Design tokens. Values are placeholders until styling is decided. */
 :root {
-  /* -- Colors --------------------------------------------------------------
-     Placeholder greyscale palette. Replace with your 2-3 chosen colors,
-     e.g. from Coolors. Keep the naming (bg / surface / text / accent)
-     so the rest of the CSS doesn't need to change, only these values. */
-  --color-bg: #FFFFFF;
-  --color-surface: #F0EBE1;      /* card backgrounds, alt sections */
-  --color-text: #1C1A17;
-  --color-text-muted: #7A7060;
-  --color-border: #DDD5C8;
-  --color-accent: #C9A84C;        /* buttons, links, highlights — antique gold */
-  --color-title-band: #F0F0F0;    /* light gray for page-title bands */
-  --color-accent-contrast: #0D1B2A; /* text/icons placed on top of accent */
-  --color-navy: #0D1B2A;          /* header, footer, dark sections */
+  --color-text: #222222;
+  --color-background: #ffffff;
+  --color-border: #dddddd;
 
-  /* -- Typography ------------------------------------------------------------
-     Placeholder: system fonts, no Google Fonts loaded yet.
-     When ready, add the Google Fonts <link> in each HTML <head>,
-     then change these two variables to the chosen font-family stacks. */
-  --font-heading: 'Sarabun', 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Sarabun', 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-heading-alt: 'Kanit', 'Sarabun', sans-serif;
+  /* Brand palette, derived from logo. Not yet applied site-wide (no visual design decisions made yet) — available for future use, applied now only to the header wordmark. */
+  --color-gold: #c6a15b;
+  --color-gold-dark: #a8843f;
+  --color-gold-light: #e3cda0;
+  --color-cream: #f5efe4;
+  --color-charcoal: #362f28;
+  --color-taupe: #c7b9a0;
 
-  --fs-h1: clamp(2.25rem, 5vw, 4rem);
-  --fs-h2: clamp(1.75rem, 3.5vw, 2.75rem);
-  --fs-h2-sm: clamp(1.4rem, 2.5vw, 2rem);
-  --fs-h3: clamp(1.05rem, 1.6vw, 1.25rem);
-  --fs-body: 1rem;
-  --fs-small: 0.875rem;
+  /* Gold at 5%, mixed onto white — near-white with a faint warm cast, for
+     full-width band backgrounds (e.g. the trust strip) that should read as
+     "almost white" rather than a solid brand color. */
+  --color-gold-tint-05: #fcfaf7;
 
-  --lh-heading: 1.1;
-  --lh-body: 1.6;
+  /* Inverted text tokens — for the rare section sitting on a saturated dark
+     brand surface (e.g. .cta-band's charcoal background) rather than one of
+     the light tint bands above. Every tint band still reads with the default
+     --color-text, so this pair is the one legitimate exception to a
+     per-band text-color override: a dark surface genuinely needs light text,
+     a whisper-tint doesn't. Not for use outside dark surfaces. */
+  --text-on-brand: #ffffff;
+  --text-on-brand-muted: rgba(255, 255, 255, 0.7);
 
-  /* -- Spacing scale -------------------------------------------------------
-     Use these instead of one-off pixel values so rhythm stays consistent. */
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 2rem;
-  --space-lg: 4rem;
-  --space-xl: 7rem;
+  /* Charcoal warmed with ~30% gold-dark — a related but visibly lighter dark
+     tone for sections that sit directly against the pure --color-charcoal
+     footer (e.g. .cta-band) and need to read as distinct from it rather than
+     blending into one slab. Computed as 70% #362f28 / 30% #a8843f. */
+  --color-charcoal-warm: #58492f;
 
-  /* -- Layout -------------------------------------------------------------- */
-  --max-width: 1200px;
-  --content-width: 60em;  /* ~960px — body copy reading column */
-  --gutter: var(--space-sm);
-  --radius: 4px;
+  /* Body font, site-wide (cascades from `body` in base.css). Same Thai-
+     supporting stack as --font-family-heading below — rolled out from
+     index.html/curtains.html's per-element experiment to every page.
+     Pages that don't yet load the Kanit/Sarabun Google Fonts link
+     (see CLAUDE.md's font rollout notes) silently fall back to the
+     sans-serif at the end of the stack until that link is added. */
+  --font-family-base: 'Kanit', 'Sarabun', sans-serif;
+  --font-family-serif: 'Playfair Display', Georgia, serif;
+  --font-family-script: 'Alex Brush', cursive;
+  /* Thai-supporting heading font, matching REFERENCE-DELETE-LATER's
+     --font-heading-alt. Applied via specific heading component classes
+     (not the bare h1-h6 tag) so rollout stays scoped to pages that load
+     the Kanit/Sarabun Google Fonts. */
+  --font-family-heading: 'Kanit', 'Sarabun', sans-serif;
 
-  /* -- Motion ---------------------------------------------------------------
-     Centralized so "subtle" stays subtle and consistent everywhere. */
-  --transition-fast: 150ms ease;
-  --transition-base: 300ms ease;
-  --transition-slow: 600ms ease;
-}
+  --header-height: 64px;
+  --breakpoint-mobile: 768px;
+  --container-max-width: 1280px;
+  /* Narrower max-width for single-column reading content (article-style
+     subpages) — long-form text shouldn't stretch to the full container. */
+  --container-reading-width: 880px;
+  /* Body-text measure: caps a paragraph's line length, not a whole container
+     (--container-reading-width is for that). em-based so it scales with the
+     text's own font-size rather than the root — 50em is ~800px at a 16px
+     font-size, but a paragraph set smaller/larger keeps proportionally the
+     same character count per line. */
+  --text-max-width: 50em;
 
-/* Respect users who've asked for less motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  /* Tight internal padding for cards that should read as denser than the
+     default .white-fill 16px — half that value, kept as one equal-sides
+     token so it stays reusable across other cards. Currently used by
+     .options__card-link only. */
+  --card-padding-tight: 8px;
+
+  /* Card elevation states, reusable beyond .options__card-link.
+     Resting: barely-there — generous blur, low opacity, small offset — just
+     enough that the card reads as sitting slightly above the band.
+     Hover: a clearly stronger lift, paired with the existing translateY. */
+  --elevation-resting: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --elevation-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+  /* Corner radius scale. Square corners site-wide, matching the sharp,
+     editorial look standard on reference home-decoration sites. */
+  --radius-sm: 0;   /* buttons, lightbox */
+  --radius: 0;      /* photos, cards, card-links — the site's default */
 }

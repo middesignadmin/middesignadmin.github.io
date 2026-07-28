@@ -1,612 +1,973 @@
-/* ==========================================================================
-   COMPONENTS — hero, service cards, gallery grid, contact tiles, forms
-   ========================================================================== */
+/* Reusable UI components. Empty for now — add rules here as components are built. */
 
-/* -- Content image ------------------------------------------------------ */
-
-.content-image {
-  width: 100%;
-  max-width: 560px;
-  height: auto;
-  display: block;
-  margin-block: var(--space-md);
-  margin-inline: auto;
-  border-radius: 4px;
+/* Reusable aspect-ratio modifiers for photo boxes. Combine with a
+   component's own placeholder/img class, e.g.
+   class="offices__placeholder media--wide" — the component class keeps
+   its background/border-radius/centering, this just overrides the ratio.
+   Add more modifiers here (e.g. media--tall) as other sections need a
+   ratio that isn't the site's default 4:3. */
+.media--wide {
+  aspect-ratio: 16 / 9;
 }
 
-/* -- Hero --------------------------------------------------------------- */
+/* Reusable surface modifier: white fill + rounded corners, for a card that
+   needs to pop off a tinted section background (e.g. .options sitting on
+   --color-gold-tint-05). Combine with the component's own card class, e.g.
+   class="options__card white-fill" — the component class keeps its layout,
+   this just adds the white surface + padding. Reuse elsewhere any card needs
+   the same lift off a tinted background. */
+.white-fill {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 16px;
+}
 
-.hero {
+/* Reusable body-text measure: caps a paragraph's line length to a readable
+   ~600px (see --text-max-width) without touching the section's container
+   width. Combine with the component's own text class, e.g.
+   class="style-match__text text-measure". Distinct from .hero__subhead's
+   own 60ch cap — that one stays as-is; use this for other body copy. */
+.text-measure {
+  max-width: var(--text-max-width);
+}
+
+/* Breadcrumb: plain text trail above the page content, e.g. "Curtains / Fabrics"
+   on a product subpage. Kept minimal — no background/border — matching the
+   site's current unstyled-by-default approach outside the header/footer. */
+.breadcrumb__list {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  gap: 0.4em;
+  padding-top: 0.75rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  list-style: none;
+}
+
+.breadcrumb__item a {
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
+.breadcrumb__item + .breadcrumb__item::before {
+  content: "/";
+  margin-right: 0.4em;
+  color: var(--color-border);
+}
+
+/* Article: single-column layout for product subpages — H1, then repeating
+   H2 + text + image sections, all within the narrower .container--article
+   reading width (see layout.css). */
+.article {
+  padding-top: 8px;
+  padding-bottom: 32px;
+}
+
+.article__heading {
+  margin: 0 0 8px;
+  font-family: var(--font-family-heading);
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Tagline directly under the H1 — one line, no section heading of its own. */
+.article__lead {
+  margin: 0 0 24px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-gold-dark);
+  line-height: 1.5;
+}
+
+.article__section {
+  margin-bottom: 32px;
+}
+
+.article__section-title {
+  margin: 0 0 12px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.article__text {
+  margin: 0 0 16px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.article__media {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  min-height: 50vh;
-  padding-block: var(--space-lg);
+  text-align: center;
+  font-size: 0.9rem;
 }
 
-.hero p {
-  font-size: 1.125rem;
-  color: var(--color-text-muted);
-  max-width: 36em;
-  margin-bottom: var(--space-md);
+/* Real article image: no forced aspect-ratio, unlike .article__media — these
+   are infographics with baked-in text, so cropping via object-fit would cut
+   off content. Renders at its natural ratio instead. */
+.article__img {
+  width: 100%;
+  border-radius: var(--radius);
+  display: block;
 }
 
-/* -- Service / teaser cards ----------------------------------------------
-   Used on Home to summarize Curtains / Wallpaper / Flooring */
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
+/* Product-info card border: a thin outline + inset padding for cards that
+   display product information (currently the curtain style/material cards
+   on curtain-styles.html). Additive class, applied alongside a card's own
+   layout class (e.g. class="style-cards__card product-info-card") — kept
+   separate from .style-cards__card / .material-cards__card so the border
+   can be reused by future "product info" card sets without those base
+   classes carrying styling that doesn't belong to every card using them.
+   The 12px padding here is intentionally cancelled out on the card's own
+   image (see the negative margin on .style-cards__card-img /
+   .material-cards__card-img) so the image bleeds to the card edges while
+   the title/text stay inset. */
+.product-info-card {
+  border: 1px solid var(--color-border);
+  padding: 12px;
 }
 
-/* Desktop-only 4-per-row variant. Tablet/mobile breakpoints and the
-   carousel modifier below still take over at their own widths. */
-.card-grid--cols-4 {
-  grid-template-columns: repeat(4, 1fr);
+/* Style cards: swipeable card list (image + title + description), dropped
+   directly into an .article page (e.g. curtain-styles.html) — no wrapping
+   section/heading of its own, since the page's own H1/lead cover that.
+   Mobile: CSS-only scroll-snap carousel, same peek-and-snap mechanics as
+   .gallery__list below. Desktop (>=900px, the site's standard breakpoint):
+   fixed 2-column grid. */
+.style-cards {
+  display: flex;
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-/* Pagination dots for the mobile carousel modifier below. Hidden by
-   default; only shown once the carousel takes over at <=768px. Generated
-   and populated by js/main.js, one dot per .card. */
-.carousel-dots {
+.style-cards::-webkit-scrollbar {
   display: none;
 }
 
-.card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+.style-cards__card {
+  flex: 0 0 87%;
+  scroll-snap-align: start;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  }
-}
-
-/* Modifier: makes the whole card clickable by stretching the card's
-   button link over the full card via a pseudo-element (stretched-link
-   pattern). Used on Home only — other pages' cards have no nested link. */
-.card--link {
-  position: relative;
-}
-
-.card--link .card-body .btn--primary::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-
-.card-image {
+.style-cards__card-img {
+  /* calc() adds the 24px (2 x 12px) cancelled out by the negative left/right
+     margin back onto the width — a plain width: 100% would keep the image's
+     own rendered width fixed at the padded content width, since a negative
+     margin-right doesn't stretch a box with a non-auto width, only shifts
+     what comes after it. max-width overrides base.css's site-wide
+     `img { max-width: 100% }` reset, which would otherwise clip this back
+     down to 100% regardless of the width above. */
+  width: calc(100% + 24px);
+  max-width: calc(100% + 24px);
   aspect-ratio: 4 / 3;
-  background-color: var(--color-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  font-size: var(--fs-small);
-  overflow: hidden;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
+  border-radius: var(--radius);
   object-fit: cover;
+  display: block;
+  /* Bleed out of .product-info-card's 12px padding on the top/left/right so
+     the image fills the card edge-to-edge, while the title/text below stay
+     inset within the card's padding as normal. */
+  margin: -12px -12px 8px;
 }
 
-.card-body {
-  padding: var(--space-md);
+.style-cards__card-title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
-.card-body h3 {
-  margin-bottom: var(--space-xs);
+.style-cards__card-text {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #6b6b6b;
 }
 
-.card-body p {
-  color: var(--color-text-muted);
-  font-size: var(--fs-small);
+.style-cards__card-text:last-child {
   margin-bottom: 0;
 }
 
-/* Modifier: for card photos supplied as 1:1 images (e.g. custom-print wallpaper) */
-.card img.card-img--square {
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  width: 100%;
+@media (min-width: 900px) {
+  .style-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    overflow-x: visible;
+  }
+
+  .style-cards__card {
+    flex: initial;
+  }
 }
 
-/* Opt-in inline link style for prose — use class="text-link" */
-.text-link {
-  color: var(--color-accent);
+/* Material cards: same image-on-top / title / text layout as .style-cards
+   directly above it on the page, but a plain static grid (no swipe) — this
+   set only ever has 3 short cards, so a scroll-snap carousel isn't needed.
+   Mobile: single column. Desktop (>=900px): 3 columns. */
+.material-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.material-cards__card-img {
+  /* calc() adds the 24px (2 x 12px) cancelled out by the negative left/right
+     margin back onto the width — a plain width: 100% would keep the image's
+     own rendered width fixed at the padded content width, since a negative
+     margin-right doesn't stretch a box with a non-auto width, only shifts
+     what comes after it. max-width overrides base.css's site-wide
+     `img { max-width: 100% }` reset, which would otherwise clip this back
+     down to 100% regardless of the width above. */
+  width: calc(100% + 24px);
+  max-width: calc(100% + 24px);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+  /* Bleed out of .product-info-card's 12px padding on the top/left/right so
+     the image fills the card edge-to-edge, while the title/text below stay
+     inset within the card's padding as normal. */
+  margin: -12px -12px 8px;
+}
+
+.material-cards__card-title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.material-cards__card-text {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #6b6b6b;
+}
+
+.material-cards__card-link {
+  color: var(--color-gold-dark);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  font-size: 0.9rem;
 }
 
-.text-link:hover {
-  color: var(--color-accent-contrast);
-}
-
-@media (max-width: 900px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (min-width: 900px) {
+  .material-cards {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 600px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
+/* Project page template (portfolio-pages/*.html): main photo + metadata,
+   reused verbatim across project pages — only copy/photo content changes.
+   Mobile: photo stacked above metadata. Desktop: photo fixed-width, metadata
+   fills the remaining width (not a proportional split — the photo should
+   stay thumbnail-scale even as the container gets no wider). */
+.project-header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
-/* Modifier: mobile-only peek carousel (CSS scroll-snap, no JS).
-   Desktop grid above is untouched; this only takes over at <=768px. */
-@media (max-width: 768px) {
-  .card-grid--carousel {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: var(--space-sm);
-    margin-inline: calc(-1 * var(--gutter));
-    padding-inline: 0;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .card-grid--carousel::-webkit-scrollbar {
-    display: none;
-  }
-
-  .card-grid--carousel .card {
-    flex: 0 0 88%;
-    scroll-snap-align: center;
-  }
-
-  /* First/last card get extra edge margin so they align with the page's
-     normal content inset at rest (scroll position 0/end). Interior cards
-     have no such margin — if cards are reordered/added, only whichever
-     card ends up first/last picks this up automatically via :first-child/
-     :last-child, no per-card class needed. */
-  .card-grid--carousel .card:first-child {
-    margin-left: var(--gutter);
-  }
-
-  .card-grid--carousel .card:last-child {
-    margin-right: var(--gutter);
-  }
-
-  /* Cards off-screen to the right haven't triggered the scroll-reveal
-     IntersectionObserver yet (js/main.js), so dragging them into view
-     horizontally plays the fade/lift animation. Force the "revealed" state
-     here so horizontal scrolling never (re)triggers it. */
-  .card-grid--carousel .card.fade-in {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-xs);
-    margin-top: var(--space-sm);
-  }
-
-  .carousel-dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-color: var(--color-border);
-    transition: transform var(--transition-fast), background-color var(--transition-fast);
-  }
-
-  .carousel-dot.is-active {
-    background-color: var(--color-accent);
-    transform: scale(1.4);
-  }
-}
-
-/* -- Portfolio gallery grid ------------------------------------------------
-   Thumbnails link to full-size images, opened via GLightbox (see js/main.js) */
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: var(--space-sm);
-}
-
-.gallery-item {
-  position: relative;
+.project-header__photo {
   display: block;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background-color: var(--color-surface);
-}
-
-.gallery-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-base);
 }
 
-.gallery-item:hover img {
-  transform: scale(1.05);
-}
-
-.gallery-item .gallery-caption {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: var(--space-xs) var(--space-sm);
-  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-  color: #fff;
-  font-size: var(--fs-small);
-  opacity: 0;
-  transition: opacity var(--transition-fast);
-}
-
-.gallery-item:hover .gallery-caption {
-  opacity: 1;
-}
-
-/* Placeholder state before real photos are added */
-.gallery-item--placeholder {
+.project-header__photo-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-muted);
-  font-size: var(--fs-small);
-  text-align: center;
-  padding: var(--space-sm);
-  border: 1px dashed var(--color-border);
-}
-
-@media (max-width: 540px) {
-  .gallery-grid {
-    gap: var(--space-xs);
-  }
-}
-
-/* -- Mosaic feature grid (recent projects — products/curtains.html) --------
-   One large feature photo spanning the full height, smaller ones stacked
-   beside it. Reuses .gallery-item for hover zoom/caption and GLightbox. */
-
-.mosaic-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-  aspect-ratio: 3 / 2; /* gives the side rows real heights */
-  max-width: 50em;     /* keeps the section from filling the screen */
-}
-
-.mosaic-grid .gallery-item {
-  aspect-ratio: auto; /* cells define the shape, not the 1:1 from portfolio */
-}
-
-.mosaic-grid .gallery-item:first-child {
-  grid-row: 1 / -1;
-}
-
-/* Captions stay visible (hover-only is invisible on touch devices) */
-.mosaic-grid .gallery-caption {
-  opacity: 1;
-  padding-top: var(--space-md); /* taller gradient for legibility */
-  font-size: 1rem;
-}
-
-.mosaic-grid .gallery-caption strong {
-  display: block;
-  font-weight: 500;
-}
-
-.mosaic-grid .gallery-caption small {
-  font-size: 0.85rem;
-  opacity: 0.85;
-}
-
-.mosaic-more {
-  margin-top: var(--space-md);
-}
-
-@media (max-width: 600px) {
-  .mosaic-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    gap: var(--space-xs);
-    aspect-ratio: auto;
-  }
-
-  .mosaic-grid .gallery-item:first-child {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    aspect-ratio: 3 / 2;
-  }
-
-  .mosaic-grid .gallery-item:not(:first-child) {
-    aspect-ratio: 1 / 1;
-  }
-}
-
-/* -- Portfolio category groups -------------------------------------------- */
-
-.portfolio-group {
-  margin-bottom: var(--space-lg);
-  scroll-margin-top: 5rem; /* clears the sticky header (~65px) */
-}
-
-.portfolio-group:last-child {
-  margin-bottom: 0;
-}
-
-.portfolio-group-heading {
-  font-size: clamp(1.1rem, 1.4vw, 1.375rem);
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--color-border);
-}
-
-/* -- Contact channels (editorial strips — contact.html) ─────────────────── */
-
-.contact-channels {
-  margin-bottom: var(--space-lg);
-}
-
-.contact-channels .section-divider {
-  margin-block: 0;
-  border-top-color: var(--color-border);
-}
-
-.contact-channel {
-  padding-block: var(--space-md);
-}
-
-.contact-channel__label {
-  display: block;
-  font-size: var(--fs-small);
-  font-family: var(--font-body);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-sm);
-}
-
-.contact-channel__body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-}
-
-.contact-channel__info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.contact-channel__number,
-.contact-channel__email {
-  font-family: var(--font-heading-alt);
-  font-size: clamp(1.75rem, 4vw, 3rem);
-  font-weight: 300;
-  color: var(--color-text);
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  transition: color var(--transition-fast);
-}
-
-.contact-channel__number i,
-.contact-channel__email i,
-.contact-channel__line-id i {
-  font-size: 0.5em;
-  color: currentColor;
-  flex-shrink: 0;
-}
-
-.contact-channel__email {
-  font-size: clamp(1.25rem, 3vw, 2.25rem);
-  word-break: break-all;
-}
-
-.contact-channel__number:hover,
-.contact-channel__email:hover {
-  color: var(--color-accent);
-}
-
-.contact-channel__line {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  flex-wrap: wrap;
-}
-
-.contact-channel__line-qr img {
-  display: block;
-  width: 180px;
-  height: 180px;
-}
-
-.contact-channel__line-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding-top: 0.5rem;
-}
-
-.contact-channel__line-id {
-  font-family: var(--font-heading-alt);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-  font-weight: 300;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-}
-
-.contact-channel__address {
-  font-style: normal;
-  font-size: 1.0625rem;
-  line-height: var(--lh-body);
-  color: var(--color-text);
-}
-
-.contact-channel__note {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-  max-width: 36em;
-  margin-top: var(--space-sm);
-  margin-bottom: 0;
-}
-
-@media (max-width: 600px) {
-  .contact-channel {
-    padding-block: var(--space-sm);
-  }
-
-  .contact-channel__body {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .contact-channel__number {
-    font-size: 2rem;
-  }
-
-  .contact-channel__email {
-    font-size: 1.125rem;
-  }
-}
-
-/* -- Contact tiles ------------------------------------------------------- */
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-}
-
-.contact-tile {
-  text-align: center;
-  padding: var(--space-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-}
-
-.contact-tile h3 {
-  font-size: var(--fs-body);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: var(--space-xs);
-}
-
-.contact-tile p,
-.contact-tile a {
-  color: var(--color-text-muted);
-}
-
-/* LINE tile */
-.contact-tile--line .line-qr {
-  display: block;
-  width: 160px;
-  height: 160px;
-  margin: var(--space-sm) auto;
-}
-
-.line-add-btn {
-  display: inline-block;
-  margin-bottom: var(--space-xs);
-}
-
-.line-add-btn img {
-  display: block;
-  width: 160px;
-  height: auto;
-}
-
-.line-id {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-}
-
-.line-id span {
-  display: block;
-  font-size: 0.85em;
-}
-
-@media (max-width: 720px) {
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* -- Forms ---------------------------------------------------------------
-   Styling only — wiring to a form backend (e.g. Formspree) is a later step */
-
-.form-field {
-  margin-bottom: var(--space-md);
-}
-
-.form-field label {
-  display: block;
-  margin-bottom: var(--space-xs);
-  font-size: var(--fs-small);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--color-text-muted);
-}
-
-.form-field input,
-.form-field textarea {
   width: 100%;
-  padding: 0.75em;
-  border: 1px solid var(--color-border);
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius);
-  font-family: inherit;
-  font-size: var(--fs-body);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
 }
 
-.form-field textarea {
-  resize: vertical;
-  min-height: 8em;
+/* Real main photo (once a project has one): same 4:3 box as
+   .project-header__photo-placeholder so swapping the placeholder for a
+   real <img> causes no layout shift. */
+.project-header__photo-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
 }
 
-/* ── Editorial blocks (product pages) ─────────────────── */
-
-.editorial-block {
-  max-width: 42em;
-  margin-bottom: var(--space-lg);
-}
-
-.editorial-block:last-child {
-  margin-bottom: 0;
-}
-
-.editorial-text {
-  margin-bottom: var(--space-md);
-}
-
-.editorial-image {
+.project-meta {
   margin: 0;
 }
 
-.editorial-image img {
+.project-meta__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-meta__item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.project-meta__label {
+  margin: 0;
+  color: var(--color-charcoal);
+  font-weight: 600;
+}
+
+.project-meta__value {
+  margin: 0;
+  color: var(--color-text);
+}
+
+/* Desktop: photo fixed at 360px (thumbnail/card scale, well under the 848px
+   usable width inside .container--article — not a full-bleed hero), metadata
+   takes the remaining width. */
+@media (min-width: 900px) {
+  .project-header {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .project-header__photo {
+    flex: 0 0 360px;
+  }
+
+  .project-meta {
+    flex: 1 1 auto;
+    min-width: 200px;
+  }
+}
+
+/* Project gallery grid: small placeholder cards, roughly half the main
+   photo's width. Square (1:1), matching the source photos, unlike the 4:3
+   used elsewhere on the site. Mobile: 2 columns. Desktop: 4 columns at the
+   site's standard 900px breakpoint — same column pattern as .curtain-styles__grid. */
+.project-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-gallery__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  font-size: 0.85rem;
+}
+
+/* Real grid photo (once a card has one): same square box as
+   .project-gallery__placeholder so swapping the placeholder for a real
+   <img> causes no layout shift. */
+.project-gallery__link {
+  display: block;
+}
+
+.project-gallery__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .project-gallery__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Hero (split layout): image top on mobile, text left / image right on desktop.
+   .hero__container relies on .container (layout.css) for max-width + inline padding. */
+.hero__container {
+  padding-block: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero__media {
+  order: -1;
+  width: 100%;
+}
+
+.hero__eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-gold-dark);
+  letter-spacing: 0.01em;
+}
+
+.hero__headline {
+  margin: 0 0 12px;
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.hero__subhead {
+  margin: 0 0 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+  max-width: 60ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hero__primary-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background: #00b900;
+  color: #fff;
+  border: 1px solid #00b900;
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-gold-dark);
+  border: 1px solid var(--color-gold-dark);
+}
+
+/* hover: hover excludes touch devices, which have no mouseleave to clear
+   :hover after a tap — without this guard, the button gets stuck in the
+   hover color until the user taps elsewhere on the page. */
+@media (hover: hover) {
+  .btn--primary:hover {
+    background: #00a300;
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-gold-dark);
+    color: var(--color-cream);
+  }
+}
+
+/* Size modifier: one notch below the default (hero) size, for CTAs placed
+   mid-page rather than as the page's primary above-the-fold action. */
+.btn--md {
+  min-height: 44px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+}
+
+.btn:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.hero__cta-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.hero__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 16px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-gold-dark);
+}
+
+.hero__trust li::before {
+  content: "✓ ";
+}
+
+.hero__img,
+.hero__placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hero__placeholder {
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Mobile: full-bleed image, flush to the nav, square corners at the screen edge. */
+@media (max-width: 899.98px) {
+  /* image flush to the top: no gap under the nav */
+  .hero__container {
+    padding-top: 0;
+  }
+  /* full-bleed: span the full viewport width, ignoring container side padding */
+  .hero__media {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+  /* square corners when flush to the screen edges */
+  .hero__img,
+  .hero__placeholder {
+    border-radius: 0;
+  }
+}
+
+/* Desktop: text left, image right. 900px is specific to the hero split layout,
+   independent of the site's --breakpoint-mobile (768px) nav breakpoint. */
+@media (min-width: 900px) {
+  .hero__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 48px;
+    padding-block: 48px;
+  }
+
+  .hero__media {
+    order: 0;
+  }
+
+  .hero__img,
+  .hero__placeholder {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Photo-background hero modifier: opt-in per page via .hero--photo-bg
+   (currently only products/blinds.html) for a full-bleed photo behind the
+   text instead of the split text/image layout above. The photo comes from
+   the --hero-bg-image custom property set inline on the section in HTML, so
+   this rule stays reusable across pages.
+   Higher specificity (.hero--photo-bg .hero__container) than the bare
+   .hero__container rules above/in the 900px media query, so it overrides
+   the split grid at every viewport width regardless of source order. */
+.hero--photo-bg {
+  position: relative;
+  height: 70vh;
+  background-image: var(--hero-bg-image);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Optional wider crop for the desktop-width box (same 900px breakpoint as
+   the split hero layout above). Falls back to --hero-bg-image if a page
+   only sets one custom property. */
+@media (min-width: 900px) {
+  .hero--photo-bg {
+    height: clamp(360px, 60vh, 560px);
+    background-image: var(--hero-bg-image-desktop, var(--hero-bg-image));
+  }
+}
+
+/* Dark overlay for text contrast. Adjust only the opacity (last rgba value)
+   to change the overlay strength — 0.2-0.3 is the target range. */
+.hero--photo-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Bottom-left title overlay. Absolute + inset:0 stretches to the section's
+   full height for the bottom anchor, while the inherited .container
+   max-width/margin-inline:auto still centers+caps the box exactly like
+   every other section — so justify-content:flex-start lines the title's
+   left edge up with the site's content column, not the raw viewport edge. */
+.hero--photo-bg .hero__container {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-block: 32px;
+}
+
+/* Stack the headline and tagline as a group so the pair sits together at
+   the bottom anchor — the tagline pushes the headline up rather than
+   sitting on its own baseline. */
+.hero--photo-bg .hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Small label above the headline. Own style, separate from .logo. Uses
+   --font-family-heading (Kanit) to match the other index.html section
+   titles, with a text-transform: uppercase override rather than retyping
+   the markup ("MID Design Studio"). margin-bottom adds a delicate gap on
+   top of .hero__content's 4px flex gap (12px total) so it reads as
+   separated from the headline, unlike the tight headline/tagline pairing
+   below. */
+.hero--photo-bg .hero__eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  color: var(--color-gold-light);
+  text-transform: uppercase;
+}
+
+/* margin-bottom: 0 cancels .hero__headline's own 12px bottom margin (base
+   rule above) — otherwise it stacks on top of the .hero__content gap,
+   doubling the visual space between title and tagline. */
+.hero--photo-bg .hero__headline {
+  margin-bottom: 0;
+  color: #fff;
+}
+
+/* Secondary hero text ("slogan"): plain text, not a heading element, sized
+   noticeably smaller/lighter than .hero__headline. Expect it to wrap to
+   2 lines on narrow screens — that's why .hero__headline got lifted via
+   the .hero__content gap above instead of staying bottom-anchored alone. */
+.hero--photo-bg .hero__tagline {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-weight: 400;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  line-height: 1.4;
+  color: #fff;
+}
+
+/* Entrance animation: title fades/rises in, tagline follows ~0.15s behind
+   for a light cascade. Scoped inside prefers-reduced-motion:no-preference
+   so reduced-motion users just get the text fully in place immediately —
+   the opacity:0 starting state only ever applies when the animation runs. */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero--photo-bg .hero__eyebrow,
+  .hero--photo-bg .hero__headline,
+  .hero--photo-bg .hero__tagline {
+    animation: hero-fade-up 0.6s ease-out both;
+  }
+
+  .hero--photo-bg .hero__tagline {
+    animation-delay: 0.15s;
+  }
+}
+
+/* Blinds intro: the hero's subhead/buttons live here instead (see
+   products/blinds.html — the hero photo only carries the headline). Same
+   padding-block as .offices__container / .gallery__container, so it reads
+   as a normal section like the rest of the page; no heading since the
+   headline already sits over the hero photo above it. */
+.blinds-intro__container {
+  padding-block: 32px;
+}
+
+/* Curtains intro: same pattern as .blinds-intro__container above, copied to
+   products/curtains.html once it also moved to the .hero--photo-bg hero. */
+.curtains-intro__container {
+  padding-block: 32px;
+}
+
+.curtains-intro__link {
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* Trust strip: thin reassurance band directly under the hero. Background is a
+   5% gold / 95% white tint (--color-gold-tint-05) — a near-white brand wash,
+   distinct from the header's solid --color-cream.
+   Full-bleed band pattern: background/border go on the outer section so the
+   color spans the full viewport width; the inner __container keeps the
+   `container` class purely for max-width + centering, same split as
+   .site-header / .header-container. Reuse this split for future full-width
+   bands rather than putting color on the `container`-classed element. */
+.trust-strip {
+  background: var(--color-gold-tint-05);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trust-strip__container {
+  padding-block: 12px;
+}
+
+.trust-strip__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust-strip__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--color-charcoal);
+}
+
+.trust-strip__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  flex-shrink: 0;
+  color: var(--color-gold);
+}
+
+/* Desktop: single row of four, matching the hero's 900px split-layout breakpoint. */
+@media (min-width: 900px) {
+  .trust-strip__container {
+    padding-block: 16px;
+  }
+
+  .trust-strip__list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px 24px;
+  }
+}
+
+/* Gallery: horizontally swipeable strip on mobile. Items are sized so the next
+   photo's edge peeks in at the right — that peek is what signals "swipe me",
+   so no "swipe for more" instruction text is needed. */
+.gallery__container {
+  padding-block: 32px;
+}
+
+.gallery__eyebrow {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-gold-dark);
+}
+
+.gallery__list {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gallery__list::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery__item {
+  flex: 0 0 78%;
+  scroll-snap-align: start;
+}
+
+.gallery__link {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.gallery__link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.gallery__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Real thumbnail (once photos exist): same 4:3 box and crop as .gallery__photo
+   so swapping the placeholder for a real <img> causes no layout shift. */
+.gallery__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* Hidden on the page itself — GLightbox reads its text via the
+   `description: .gallery__caption` selector and displays it inside the
+   lightbox only, regardless of this element's on-page visibility. */
+.gallery__caption {
+  display: none;
+}
+
+/* Desktop: fixed grid, no swipe/peek needed since all five photos fit. */
+@media (min-width: 900px) {
+  .gallery__list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    overflow-x: visible;
+  }
+
+  .gallery__item {
+    flex: initial;
+  }
+
+  /* Modifier for pages with fewer than 5 gallery photos available (currently
+     products/dividers.html, 3 real photos so far — remove this modifier once
+     a 4th/5th photo exists and the grid should go back to 5 columns). */
+  .gallery__list--3up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Plain divider line: same gold top-border accent used by .style-match__container /
+   .offices__container to separate a section from the gallery above, but for a spot
+   with no heading/content of its own yet (e.g. products/dividers.html, gallery -> footer).
+   Combine with .container so the line matches the site's content width. */
+.section-divider {
+  height: 0;
+  margin-block: 32px;
+  border: none;
+  border-top: 1px solid var(--color-gold);
+}
+
+/* Lightbox stand-ins for the placeholder photos (see markup comment in curtains.html). */
+.gallery__lightbox-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  background: #fff;
+  border-radius: var(--radius-sm);
+}
+
+.gallery__lightbox-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  border-radius: var(--radius-sm);
+}
+
+.gallery__lightbox-caption {
+  margin: 12px 0 0;
+  color: var(--color-text);
+  text-align: center;
+}
+
+/* Style match: heading + intro text + CTA, between the gallery and the
+   how-we-work steps. Same section-title pattern as .steps__heading.
+   Renders on the page's default white background (no tint band). Gold
+   top border acts as a divider from the gallery above — container-width
+   (not full-bleed), sitting 32px below the gallery's own content since
+   both use the same padding-block: 32px. */
+.style-match__container {
+  padding-block: 32px;
+  border-top: 1px solid var(--color-gold);
+}
+
+/* about-us.html: no gallery section precedes it, so the divider border
+   above has nothing to separate from — suppressed for this instance only. */
+.style-match--no-divider .style-match__container {
+  border-top: none;
+}
+
+/* Our installation team: placeholder section, content to follow. Same
+   section-title pattern as .about__heading / .products-services__heading. */
+.installation-team__container {
+  padding-block: 32px;
+}
+
+.installation-team__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Mobile: photo stacked above the content card, no overlap. Desktop (900px+,
+   see below): media (left) + content (right) as a centered, fixed-width
+   pair — see the 900px block below for sizing. */
+.style-match__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.style-match__media {
+  margin: 0;
+}
+
+.style-match__img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -614,76 +975,1339 @@
   display: block;
 }
 
-.editorial-image figcaption {
-  margin-top: var(--space-xs);
+.style-match__caption {
+  margin: 8px 0 0;
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: #777;
+  text-align: center;
 }
 
-/* ── Style feature rows (text + image side-by-side, e.g. curtain styles) ── */
-
-.style-feature {
-  margin-bottom: var(--space-lg);
-}
-.style-feature:last-child {
-  margin-bottom: 0;
+.style-match__caption-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
 }
 
-.style-feature__row {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: var(--space-md);
-  align-items: start;
-  margin-top: var(--space-xs);
+.style-match__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
-.style-feature__media img {
+.style-match__text {
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+}
+
+/* Desktop: media + content as fixed-ish flex items (not a grid — flex's
+   align-items: center reliably centers the shorter item against the
+   taller one on the cross axis, which is what keeps the card vertically
+   centered against the photo below), centered as a group via
+   justify-content so the pair reads as one block in the middle of the
+   section rather than spanning the full container. */
+@media (min-width: 900px) {
+  .style-match__layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  .style-match__media {
+    flex: 0 0 min(450px, 42%);
+  }
+
+  .style-match__content {
+    flex: 0 0 min(480px, 42%);
+  }
+
+  .style-match__img {
+    width: 100%;
+  }
+}
+
+/* "Card overlapping photo" desktop treatment, opt-in via the
+   .style-match--overlap modifier class on the section — same pattern as
+   .offices--overlap, mirrored: media is first/left here (not content), so
+   the card bleeds left onto the photo's right edge instead of right onto
+   the photo's left edge. 27px overlap — half of .offices--overlap's 72px
+   proportional equivalent (54px), tuned down further by eye since even
+   that read as covering too much of this section's smaller ~450px photo.
+   No top offset (unlike .offices--overlap) — this
+   section centers the card against the photo vertically instead of
+   nudging it. No z-index needed beyond making .style-match__content
+   positioned: it's the only positioned element in the pair, so it
+   naturally paints above the static .style-match__media regardless of
+   source order. */
+@media (min-width: 900px) {
+  .style-match--overlap .style-match__content {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: clamp(24px, 3vw, 40px);
+    margin-left: -27px;
+  }
+}
+
+/* How we work: 4-step numbered process. Mobile: small thumbnail + text row,
+   so the description reads next to the image rather than under it.
+   Desktop: one row of four, mirroring the trust-strip's 900px four-column
+   layout since both are exactly-four-item components at the same breakpoint. */
+.steps__container {
+  padding-block: 32px;
+}
+
+.steps__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.steps__intro {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+}
+
+.steps__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.steps__media {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(90px, 30vw, 140px);
+}
+
+.steps__img,
+.steps__placeholder {
   width: 100%;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+}
+
+.steps__img {
+  display: block;
   object-fit: cover;
-  border-radius: var(--radius);
-  display: block;
-  transition: transform var(--transition-base);
 }
 
-a.style-feature__media {
-  display: block;
-  overflow: hidden;
-  border-radius: var(--radius);
-}
-
-a.style-feature__media:hover img {
-  transform: scale(1.05);
-}
-
-.style-feature__media--placeholder {
-  aspect-ratio: 5 / 4;
+.steps__placeholder {
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-sm);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius);
-  color: var(--color-text-muted);
-  font-size: var(--fs-small);
+  font-size: 0.75rem;
+  padding: 4px;
 }
 
-@media (max-width: 700px) {
-  .style-feature__row {
-    grid-template-columns: 1fr;
+/* Number badge sits in the corner, overlapping the image edge rather than
+   floating inside it — translate() pulls it out by 30% of its own size. */
+.steps__number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-30%, -30%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.steps__body {
+  flex: 1;
+}
+
+.steps__title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.steps__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+.steps__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* Center the button stack itself (not just the block within .steps__cta) —
+   .hero__actions/.hero__primary-cta default to flex-start for the hero
+   section's left-aligned layout, overridden here so the LINE button, its
+   note, and the Call button all center under the step images. Scoped to
+   .steps__cta so the hero section elsewhere is unaffected. */
+.steps__cta .hero__actions,
+.steps__cta .hero__primary-cta {
+  align-items: center;
+}
+
+/* Plain text link under the LINE/call buttons in the products/curtains.html
+   "how we work" section, pointing to the full step-by-step version on
+   about-us.html. Styled like .breadcrumb__item a (gold-dark, underlined)
+   rather than as another button, since it's a secondary "see more" link,
+   not a third call-to-action. */
+.steps__more-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
+/* Desktop: one row of four, matching the trust-strip's 900px four-column layout. */
+@media (min-width: 900px) {
+  .steps__container {
+    padding-block: 48px;
+  }
+
+  .steps__list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .steps__item {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .steps__media {
+    width: 100%;
+  }
+
+  .steps__placeholder {
+    font-size: 0.9rem;
+    padding: 0;
   }
 }
 
-/* -- Floating action buttons (LINE / back-to-top) -------------------------- */
-.float-buttons {
-  position: fixed;
-  right: var(--space-sm);
-  bottom: 0;
-  z-index: 150;
+/* Checklist: simple tick + text list for the "how we work" section on
+   products/curtains.html only. Kept as a separate class namespace from
+   .steps__list/__item/etc. above so that about-us.html's photo-based
+   version of the same section (identical markup, untouched) keeps
+   rendering with the original rules. */
+.checklist {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checklist__icon {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--color-gold);
+  font-size: 1.1rem;
+}
+
+.checklist__title {
+  margin: 0 0 2px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.checklist__desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #444;
+}
+
+/* Full-bleed tint background for the "how we work" section, products/curtains.html
+   only — same treatment as .why-us/.offices (background on the outer section
+   so it spans edge-to-edge, .steps__container stays a plain centered
+   container). Modifier class since .steps is shared with about-us.html's
+   version, which stays untinted. */
+.steps--tint {
+  background: var(--color-gold-tint-05);
+}
+
+/* Two-column layout for the "how we work" section, products/curtains.html
+   only — the eyebrow/heading stay outside this wrapper as a normal
+   full-width section heading. Mobile: list column then buttons column,
+   stacked. Desktop: list on the left, buttons on the right. New class
+   (not .steps__cta reused) so about-us.html's single-column CTA-under-grid
+   layout is unaffected. */
+.steps__columns {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .steps__columns {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 64px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .steps__columns .checklist {
+    flex: 0 1 500px;
+  }
+
+  .steps__buttons {
+    flex-shrink: 0;
+  }
+
+  /* Keep the eyebrow/heading's left edge lined up with the centered
+     .steps__columns row below them, rather than the full-width container. */
+  .steps--tint .section-eyebrow,
+  .steps--tint .steps__heading {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+/* Curtain styles: placeholder section, content to follow. Heading matches
+   .steps__heading — both are page-level section titles at the same level. */
+.curtain-styles__container {
+  padding-block: 32px;
+}
+
+.curtain-styles__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.curtain-styles__intro {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+}
+
+.curtain-styles__toggle {
+  margin-bottom: 24px;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.curtain-styles__toggle-icon {
+  transition: transform 0.2s ease;
+}
+
+/* Chevron points down (implies "expand") while collapsed, flips to point
+   up (implies "collapse") once the panel is open. Keyed off aria-expanded,
+   which JS already sets for accessibility, so no separate .is-open class
+   is needed just for styling. */
+.curtain-styles__toggle[aria-expanded="true"] .curtain-styles__toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* Smooth reveal: animate the grid row from 0fr to 1fr rather than jumping
+   via display/[hidden]. grid-template-rows is what's animatable here (unlike
+   height, it can transition to/from an intrinsic "auto" size). The inner
+   wrapper needs overflow: hidden so its content stays clipped to that
+   animated row height instead of overflowing while it's still collapsing. */
+.curtain-styles__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.curtain-styles__panel.is-open {
+  grid-template-rows: 1fr;
+}
+
+.curtain-styles__panel-inner {
+  overflow: hidden;
+}
+
+/* Mobile: 2 columns x 4 rows, square photos. */
+.curtain-styles__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.curtain-styles__card-media {
+  aspect-ratio: 5 / 4;
+  border-radius: var(--radius);
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+/* Real card photo (once a style has one): same box and 5:4 crop as
+   .curtain-styles__card-media so swapping the placeholder for a real <img>
+   causes no layout shift. */
+.curtain-styles__card-img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.curtain-styles__card-title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.curtain-styles__card-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.curtain-styles__card-text a {
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
+/* Desktop: 4 columns x 2 rows, matching the trust-strip/gallery/steps 900px breakpoint.
+   Photos are 5:4 at all sizes (see .curtain-styles__card-media above), no override needed here. */
+@media (min-width: 900px) {
+  .curtain-styles__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Callout strip below the grid, same section/content column. Kept visually
+   attached to the grid: margin-top matches the grid's own gap at each
+   breakpoint (16px mobile / 24px desktop) rather than the larger
+   section-to-section padding-block on .curtain-styles__container.
+   Mobile: centered column (text, then full-width button, then link).
+   Desktop: row, space-between, vertically centered. */
+.curtain-styles__callout {
+  margin-top: 16px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--color-gold-tint-05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.curtain-styles__callout-lead {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.curtain-styles__callout-sub {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.curtain-styles__callout-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.curtain-styles__callout-action .btn {
+  justify-content: center;
+}
+
+.curtain-styles__callout-link {
+  font-size: 0.85rem;
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
+@media (min-width: 900px) {
+  .curtain-styles__callout {
+    margin-top: 24px;
+    padding: 32px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 48px;
+  }
+
+  /* flex-shrink: 0 keeps the text on one line — without it, the default
+     flex-basis: auto sizing lets the browser wrap it even when there's
+     visibly room, since nothing else on the row is claiming that space. */
+  .curtain-styles__callout-text {
+    flex-shrink: 0;
+  }
+}
+
+/* Options: placeholder section, content to follow. Heading matches .steps__heading /
+   .curtain-styles__heading — same section-title pattern used throughout the page. */
+/* Full-bleed band: background on the outer section, .options__container
+   keeps `container` purely for max-width + centering — same split as
+   .trust-strip / .trust-strip__container. */
+.options {
+  background: var(--color-gold-tint-05);
+}
+
+.options__container {
+  padding-block: 32px;
+}
+
+.options__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Mobile: single column, each card a horizontal row (small image left, text
+   right) — same row layout as .steps__item. */
+.options__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* .options__card (<li>) is now just a grid/flex item; the visible card
+   surface, hover lift and click target all live on .options__card-link. */
+.options__card-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  /* Overrides .white-fill's default 16px padding — tighter so it reads
+     clearly smaller than the grid's 24px card gap. */
+  padding: var(--card-padding-tight);
+  box-shadow: var(--elevation-resting);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.options__card-link:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-hover);
+}
+
+.options__card-link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.options__card-media {
+  flex-shrink: 0;
+  width: clamp(90px, 30vw, 140px);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+/* Real card photo (once an option has one): same box and 4:3 crop as
+   .options__card-media so swapping the placeholder for a real <img>
+   causes no layout shift. */
+.options__card-img {
+  flex-shrink: 0;
+  width: clamp(90px, 30vw, 140px);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+}
+
+.options__card-body {
+  flex: 1;
+}
+
+.options__card-title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.options__card-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Desktop: 3 columns side by side, matching the 900px breakpoint used
+   throughout the page. Each card keeps the mobile row layout — small image
+   left, text right — rather than flipping to a stacked image-on-top card
+   like .curtain-styles__card / .steps__item. .options__card-media is left
+   at its base clamp(90px, 30vw, 140px) / 4:3 sizing, which resolves to a
+   flat 140px at this width — no override needed here. */
+@media (min-width: 900px) {
+  .options__grid {
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .options__card {
+    flex: 1;
+  }
+}
+
+/* Why choose us. Heading matches .options__heading — same section-title
+   pattern used throughout the page. Layout mirrors the hero split (image +
+   text), but flipped: image left, text right, at a 40/60 ratio instead of
+   the hero's 50/50. Image already comes first in markup, so mobile stacking
+   needs no order trick like the hero's .hero__media order: -1. Same
+   full-bleed tint-band treatment as .offices — background on the outer
+   section so it spans edge-to-edge, .why-us__container stays a plain
+   centered container. */
+.why-us {
+  background: var(--color-gold-tint-05);
+}
+
+.why-us__container {
+  padding-block: 32px;
+}
+
+.why-us__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.why-us__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.why-us__figure {
+  margin: 0;
+}
+
+.why-us__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  display: block;
+  object-fit: cover;
+}
+
+.why-us__placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.why-us__caption {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+}
+
+.why-us__caption-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+/* Feature list inside .why-us__content: icon + title + short description,
+   swapping the photo-placeholder "media" slot used by .options__card for a
+   plain icon glyph — closer to .trust-strip__icon's unboxed treatment, to
+   keep this section visually light. Mobile: one item per row. Icon sits
+   inline with the title, on the same row; the description wraps below
+   within the text column, not under the icon. */
+.why-us__features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.why-us__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.why-us__feature-icon {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-gold);
+}
+
+.why-us__feature-title {
+  margin: 0 0 4px;
+  font-family: var(--font-family-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.why-us__feature-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Desktop: image left (40%) / text right (60%), matching the hero's 900px
+   split-layout breakpoint. Features grid to 2x2 within the 60% column. */
+@media (min-width: 900px) {
+  .why-us__layout {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .why-us__features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+/* Offices, clinics and projects. Same tinted-band treatment as .options
+   (background on the outer section) and the same content/image split idea
+   as .why-us__layout, but inverted: content first, image second. Content
+   already comes first in markup, so mobile stacking needs no order trick.
+   Split is 50/50 (not the 60/40 elsewhere) and the image uses the
+   .media--wide 16:9 modifier instead of the default 4:3 — sized for a
+   specific wide photo, so the box shows it uncropped instead of forcing
+   it through object-fit: cover. */
+.offices {
+  background: var(--color-gold-tint-05);
+}
+
+.offices__container {
+  padding-block: 32px;
+  border-top: 1px solid var(--color-gold);
+}
+
+.offices__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.offices__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.offices__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.offices__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.offices__figure {
+  margin: 0;
+}
+
+.offices__caption {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+}
+
+.offices__img,
+.offices__placeholder {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.offices__img {
+  display: block;
+  object-fit: cover;
+}
+
+.offices__placeholder {
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Desktop: content left (50%) / image right (50%) — mirrors .why-us__layout's
+   900px split, but even instead of 60/40, so the shorter 16:9 image still
+   gets enough width to read as a real photo. */
+@media (min-width: 900px) {
+  .offices__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 48px;
+  }
+}
+
+/* Experimental "card overlapping photo" desktop treatment, opt-in via the
+   .offices--overlap modifier class on the section (currently only
+   products/curtains.html — products/blinds.html shares the same .offices*
+   markup/classes and stays on the plain side-by-side layout above).
+   The content becomes a flat white card (reuses the site's --radius token,
+   no shadow — flat by design, not a raised/floating effect) that overlaps
+   the left edge of the photo. Column widths/gap are left at the base
+   1fr/1fr + 48px above so the photo keeps the exact same rendered size as
+   the non-overlap layout — only the card bleeds right into the gap and
+   slightly past it, via negative margin (48px closes the gap, +24px is the
+   actual overlap onto the photo — kept subtle by design). No z-index
+   needed: .offices__content
+   is the only positioned element in the pair, so it paints above the
+   (still static) .offices__media regardless of source order.
+   Background override applies at all widths (not just desktop) so mobile
+   doesn't fall back to the base .offices gold-tint background. */
+.offices--overlap {
+  background: #fff;
+}
+
+@media (min-width: 900px) {
+  .offices--overlap .offices__layout {
+    align-items: center;
+  }
+
+  .offices--overlap .offices__content {
+    position: relative;
+    z-index: 2;
+    top: -24px;
+    background: #fff;
+    border-radius: var(--radius);
+    padding: clamp(24px, 3vw, 40px);
+    margin-right: -72px;
+  }
+}
+
+/* Our work: placeholder section, content to follow. Heading matches
+   .curtain-styles__heading / .options__heading — same section-title pattern
+   used throughout the page. No background override, so it renders on the
+   page's default white — unlike .options / .offices, which sit on the
+   gold tint band. Gold top border is the same divider used between the
+   gallery and .style-match above — a container-width line marking the
+   boundary with the "how we work" tint band before it. */
+.our-work__container {
+  padding-block: 32px;
+  border-top: 1px solid var(--color-gold);
+}
+
+.our-work__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Our work grid: pure image thumbnails, no caption stripe (unlike .gallery__link
+   above). Mobile: 2 columns, so 6 items lay out as 3 full rows; desktop below
+   switches to 3 columns, so it's 2 full rows there too. */
+.our-work__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.our-work__link {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.our-work__link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.our-work__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Real thumbnail (once photos exist): same 1:1 box and crop as .our-work__photo
+   so swapping the placeholder for a real <img> causes no layout shift. */
+.our-work__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* Desktop: fixed 3x2 grid, centered and capped at 900px so it doesn't stretch
+   full-width on wide viewports. */
+@media (min-width: 900px) {
+  .our-work__grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 900px;
+    margin-inline: auto;
+    gap: 16px;
+  }
+
+  /* Keep the eyebrow/heading/text's left edge lined up with the centered
+     .our-work__grid below them, rather than the full-width container. */
+  .our-work .section-eyebrow,
+  .our-work__heading,
+  .our-work__text {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+.our-work__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Team photos grid (about-us.html "our team" section): unlike .our-work__grid,
+   this is NOT capped to a narrower centered track — it fills the full 1280px
+   .container width. 2 columns mobile, 5 columns desktop. */
+.installation-team__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.installation-team__link {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.installation-team__link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.installation-team__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Real thumbnail (once photos exist): same 1:1 box and crop as
+   .installation-team__photo so swapping the placeholder for a real <img>
+   causes no layout shift. */
+.installation-team__thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .installation-team__grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Small gold uppercase label above a section's H2, e.g. "ABOUT MID DESIGN
+   STUDIO" above "เกี่ยวกับ MID Design Studio" — the English translation of
+   the Thai heading below it. Deliberately separate from .hero__eyebrow
+   (different color/weight/margin, tailored to the hero). Shared across
+   .about, .products-services, .why-us, .our-work. */
+.section-eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-family-heading);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-gold);
+  text-transform: uppercase;
+}
+
+.why-us .section-eyebrow {
+  text-align: center;
+}
+
+/* About: placeholder section, content to follow. Same section-title pattern
+   as .our-work__heading / .testimonials__heading below — used site-wide. */
+.about__container {
+  padding-block: 32px;
+}
+
+.about__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* about-us.html intro heading (below the page H1) — placeholder section,
+   content to follow. Same section-title pattern as .steps__heading /
+   .about__heading above. */
+.about-intro__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Body text under the heading, index.html only for now — trying out the
+   heading font here before deciding whether to roll it out to body text
+   site-wide. */
+.about__text {
+  font-family: var(--font-family-heading);
+}
+
+/* Products & services: placeholder section, content to follow. Same
+   section-title pattern as .about__heading above. */
+.products-services__container {
+  padding-block: 32px;
+}
+
+.products-services__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.products-services__intro {
+  font-family: var(--font-family-heading);
+}
+
+/* Product/category cards: clickable placeholder images with a white label
+   overlaid at the bottom, navigating to each product page. Mobile: stacked
+   single column. Desktop: one row of 4 at the site's standard 900px
+   breakpoint — grid-template-columns is hardcoded to 4 for now; bump to
+   repeat(5, 1fr) once a 5th card is added. */
+.products-services__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.products-services__link {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-gold-tint-05);
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease;
+}
+
+/* Dark scrim so the white label stays legible once a real photo replaces
+   the placeholder background — same idea as .gallery__caption's overlay. */
+.products-services__link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 55%);
+}
+
+.products-services__link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .products-services__link:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.products-services__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+@media (min-width: 900px) {
+  .products-services__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* From our customers: placeholder section, content to follow. Same
+   section-title pattern as .our-work__heading above. */
+.testimonials__container {
+  padding-block: 32px;
+}
+
+.testimonials__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Projects: index of portfolio-pages/*.html detail pages, one card each.
+   Same section-title pattern as .our-work__heading. 1 column mobile
+   (cards read better full-width with the text-over-image treatment),
+   4 columns desktop. */
+.projects__container {
+  padding-block: 32px;
+}
+
+.projects__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.projects__card-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius);
+  box-shadow: var(--elevation-resting);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.projects__card-link:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-hover);
+}
+
+.projects__card-link:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.projects__card-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+/* Stand-in for .projects__card-img until a real photo exists for a project card. */
+.projects__card-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--color-gold-tint-05);
+  color: var(--color-charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* Title sits over the photo instead of below it. Own overlay treatment
+   (charcoal-tinted gradient, lighter weight, letter-spacing) kept
+   deliberately different from .products-services__label on index.html —
+   same "text over image" idea, but a separate ruleset so this card style
+   can change without touching the index page cards, and vice versa. */
+.projects__card-title {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 22px 14px 12px;
+  background: linear-gradient(to top, rgba(54, 47, 40, 0.85) 0%, rgba(54, 47, 40, 0) 75%);
+  font-family: var(--font-family-heading);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+@media (min-width: 900px) {
+  .projects__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  /* Keep the eyebrow/heading's left edge lined up with the centered
+     .projects__grid below them, rather than the full-width container. */
+  .projects .section-eyebrow,
+  .projects__heading {
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+/* Closing CTA band: full-bleed brand surface, reusable across pages as
+   the final "contact us" push before the footer — copy changes per page,
+   style stays the same. Same full-bleed split as .trust-strip / .offices
+   (background on the outer section, __container only for max-width +
+   centering). Uses --color-cream to match .site-header, bookending the
+   page in the same brand surface; text stays on the default --color-text
+   since cream is light enough not to need the inverted --text-on-brand
+   tokens (kept for other dark surfaces, e.g. --color-charcoal-warm). */
+.cta-band {
+  background: var(--color-cream);
+}
+
+.cta-band__container {
+  padding-block: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.cta-band__heading {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cta-band__reassurance {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.cta-band__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cta-band__micro {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  max-width: 40ch;
+}
+
+@media (min-width: 900px) {
+  .cta-band__container {
+    padding-block: 56px;
+  }
+}
+
+/* Floating action buttons: LINE chat (always visible) + back-to-top (fades
+   in after scrolling). Fixed bottom-right, stacked, site-wide on every page
+   regardless of whether that page loads Font Awesome — so back-to-top uses
+   a plain text arrow rather than an icon font. */
+.float-buttons {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .float-btn {
@@ -695,10 +2319,10 @@ a.style-feature__media:hover img {
   border: none;
   border-radius: 50%;
   font-size: 1.5rem;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  transition: transform var(--transition-fast), opacity var(--transition-fast), visibility var(--transition-fast);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+  transition: transform 0.15s ease, opacity 0.15s ease, visibility 0.15s ease;
 }
 
 .float-btn:hover {
@@ -706,7 +2330,7 @@ a.style-feature__media:hover img {
 }
 
 .float-btn--line {
-  background-color: #06C755;
+  background-color: #00b900;
   overflow: hidden;
 }
 
@@ -717,7 +2341,7 @@ a.style-feature__media:hover img {
 }
 
 .float-btn--top {
-  background-color: var(--color-navy);
+  background-color: var(--color-gold-dark);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -729,9 +2353,10 @@ a.style-feature__media:hover img {
   pointer-events: auto;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .float-buttons {
-    bottom: var(--space-md);
+    bottom: 12px;
+    right: 12px;
   }
 
   .float-btn {
@@ -742,504 +2367,5 @@ a.style-feature__media:hover img {
 
   .float-btn--top {
     display: none;
-  }
-}
-
-/* -- Product banner image -------------------------------------------------- */
-.product-banner {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.product-banner-wrap + .section {
-  padding-top: var(--space-sm);
-}
-
-/* -- Contact CTA buttons (phone + LINE) ------------------------------------ */
-.contact-cta__heading {
-  margin-top: var(--space-lg);
-  scroll-margin-top: 5rem; /* clears the sticky header (~65px) */
-}
-
-.contact-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-xs);
-  padding-block: var(--space-md);
-}
-
-@media (min-width: 721px) {
-  .contact-cta {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
-
-.contact-cta__btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  min-width: 260px;
-  padding: 0.6rem 0.6rem 0.6rem 1.5rem;
-  background-color: var(--color-navy);
-  border-radius: 9999px;
-  text-decoration: none;
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 500;
-  transition: filter var(--transition-fast), transform var(--transition-fast);
-}
-
-.contact-cta__btn:hover {
-  filter: brightness(1.15);
-  transform: translateY(-1px);
-  color: #ffffff;
-}
-
-.contact-cta__label {
-  flex: 1;
-}
-
-.contact-cta__icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.contact-cta__icon--line {
-  background-color: #06C755;
-  overflow: hidden;
-  padding: 0;
-}
-
-.contact-cta__icon--line img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* -- Process timeline steps ----------------------------------------------- */
-
-/* -- Section divider ------------------------------------------------------- */
-
-.section-divider {
-  border: none;
-  border-top: 1px solid rgba(201, 168, 76, 0.25);
-  margin-block: var(--space-sm);
-}
-
-/* -- Process box wrapper --------------------------------------------------- */
-
-.process-box {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  padding: var(--space-xs) var(--space-md);
-  margin-block: var(--space-sm);
-}
-
-.process-box h3 {
-  margin-top: 0;
-}
-
-/* -- FAQ accordion ---------------------------------------------------------- */
-
-/* This heading has no intro paragraph, so the default .section-heading
-   margin-bottom (sized for heading+paragraph) reads as an oversized gap. */
-.faq .section-heading {
-  margin-bottom: var(--space-sm);
-}
-
-.faq-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.faq-item {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  transition: border-color var(--transition-fast);
-}
-
-.faq-item:hover,
-.faq-item:has(.faq-question:focus-visible) {
-  border-color: var(--color-accent);
-}
-
-.faq-question {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  list-style: none;
-  padding: var(--space-sm) var(--space-md);
-  cursor: pointer;
-  font-family: var(--font-heading-alt);
-  font-weight: 600;
-  font-size: var(--fs-h3);
-  color: var(--color-text);
-  box-shadow: inset 3px 0 0 0 transparent;
-  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.faq-question::-webkit-details-marker {
-  display: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .faq-question:hover {
-    background-color: rgba(201, 168, 76, 0.08);
-    box-shadow: inset 3px 0 0 0 var(--color-accent);
-  }
-}
-
-.faq-question:focus-visible {
-  background-color: rgba(201, 168, 76, 0.08);
-  box-shadow: inset 3px 0 0 0 var(--color-accent);
-  outline: 2px solid var(--color-accent);
-  outline-offset: -2px;
-}
-
-.faq-item[open] .faq-question {
-  background-color: rgba(201, 168, 76, 0.06);
-  box-shadow: inset 3px 0 0 0 var(--color-accent);
-}
-
-.faq-question .fa-plus {
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  color: var(--color-accent);
-  background-color: rgba(201, 168, 76, 0.12);
-  border-radius: 50%;
-  transition: transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
-}
-
-.faq-item[open] .faq-question .fa-plus {
-  transform: rotate(45deg);
-  background-color: var(--color-accent);
-  color: var(--color-accent-contrast);
-}
-
-.faq-answer > p {
-  margin: 0;
-  padding: 0 var(--space-md) var(--space-md);
-  color: var(--color-text-muted);
-  min-height: 0;
-}
-
-.faq-item:not([open]) .faq-answer,
-.faq-item[open] .faq-answer {
-  display: grid;
-  overflow: hidden;
-  transition: grid-template-rows var(--transition-base), opacity var(--transition-base);
-}
-
-.faq-item:not([open]) .faq-answer {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-
-.faq-item[open] .faq-answer {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.faq-item:nth-child(1) { transition-delay: 0ms; }
-.faq-item:nth-child(2) { transition-delay: 60ms; }
-.faq-item:nth-child(3) { transition-delay: 120ms; }
-.faq-item:nth-child(4) { transition-delay: 180ms; }
-
-/* -- Process timeline steps ----------------------------------------------- */
-
-.process-steps {
-  list-style: none;
-  padding: 0;
-  margin: var(--space-md) 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.process-steps__step {
-  display: flex;
-  flex-direction: row;
-  text-align: left;
-  align-items: flex-start;
-  gap: var(--space-sm);
-  padding-bottom: var(--space-md);
-  position: relative;
-}
-
-.process-steps__step:last-child {
-  padding-bottom: 0;
-}
-
-/* Vertical connector: this circle's centre to the next circle's centre */
-.process-steps__step:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 20px;
-  bottom: -20px;
-  left: 19px;
-  width: 1px;
-  height: auto;
-  background: var(--color-border);
-  z-index: 0;
-}
-
-.process-steps__number {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-accent);
-  color: var(--color-accent);
-  background: var(--color-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading);
-  font-size: var(--fs-small);
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-
-.process-steps__content h4 {
-  margin-bottom: var(--space-xs);
-}
-
-.process-steps__desc {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-  margin-bottom: 0;
-}
-
-/* -- Process cards (v2, boxless) -------------------------------------------
-   Mobile: thumbnail + text rows. Desktop: 5 image cards in a row. */
-
-.process-cards {
-  list-style: none;
-  padding: 0;
-  margin: var(--space-md) 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.process-cards__step {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-sm);
-}
-
-.process-cards__media {
-  position: relative;
-  flex-shrink: 0;
-  width: clamp(120px, 38vw, 170px);
-  aspect-ratio: 4 / 3;
-  height: auto;
-  border-radius: 8px;
-  background: var(--color-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.process-cards__media i {
-  font-size: 1.75rem;
-  color: var(--color-accent);
-}
-
-.process-cards__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.process-cards__number {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(-30%, -30%);
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  color: var(--color-accent-contrast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading-alt);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.process-cards__body h4 {
-  margin-bottom: var(--space-xs);
-}
-
-.process-cards__desc {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-  margin-bottom: 0;
-}
-
-@media (min-width: 880px) {
-  .process-cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-sm);
-  }
-
-  .process-cards__step {
-    flex-direction: column;
-  }
-
-  .process-cards__media {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-  }
-
-  .process-cards__media i {
-    font-size: 2rem;
-  }
-
-  .process-cards__number {
-    width: 32px;
-    height: 32px;
-    font-size: 0.9rem;
-  }
-}
-
-/* -- Hero image (full-width, no text) ------------------------------------ */
-
-.hero-image {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 70vh;
-  padding-inline: 0;
-}
-
-@media (min-width: 721px) {
-  .hero-image {
-    padding-inline: 6%;
-  }
-}
-
-.hero-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-/* -- Hero split (image + text column) ------------------------------------ */
-
-.hero-split {
-  display: flex;
-  flex-direction: column;
-  padding-inline: 0;
-}
-
-.hero-split__image {
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  max-height: 45vh;
-}
-
-.hero-split__image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero-split__text {
-  background-color: #fcfbf9;
-  display: flex;
-  align-items: center;
-  padding: var(--space-lg) var(--space-md);
-}
-
-.hero-split__label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--fs-small);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-sm);
-}
-
-.hero-split__title {
-  font-family: var(--font-heading);
-  font-weight: 400;
-  font-size: var(--fs-h1);
-  line-height: var(--lh-heading);
-  margin-bottom: var(--space-sm);
-}
-
-.hero-split__desc {
-  font-size: 1.125rem;
-  line-height: var(--lh-body);
-  color: var(--color-text-muted);
-  max-width: 32em;
-  margin-bottom: 0;
-}
-
-.hero-split__cta {
-  margin-top: var(--space-sm);
-}
-
-.hero-split--center .hero-split__text {
-  text-align: center;
-}
-
-.hero-split--center .hero-split__desc {
-  margin-inline: auto;
-}
-
-@media (min-width: 768px) {
-  .hero-split {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .hero-split__text {
-    flex: 0 0 40%;
-    max-width: 40%;
-    padding: var(--space-xl) var(--space-lg);
-    order: -1;
-  }
-
-  .hero-split__image {
-    flex: 0 0 60%;
-    max-width: 60%;
-    aspect-ratio: auto;
-    max-height: none;
-    height: auto;
   }
 }

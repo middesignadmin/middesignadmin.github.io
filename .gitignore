@@ -1,3 +1,16 @@
+# Claude project notes (not part of the site itself)
+CLAUDE.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local Claude settings
 .claude/settings.local.json
+
+# Windows Zone.Identifier files
 *:Zone.Identifier
 *.Zone.Identifier
+
+# Reference copy of the old site, not part of the current site
+REFERENCE-DELETE-LATER/

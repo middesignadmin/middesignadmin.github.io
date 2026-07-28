@@ -1,348 +1,203 @@
-/* ==========================================================================
-   LAYOUT COMPONENTS — header / nav / footer
-   Shared markup across all pages (see partial duplicated in each .html file).
-   ========================================================================== */
-
-/* -- Header / Nav ----------------------------------------------------------- */
-
+/* Structural layout: header, nav, footer, mobile hamburger breakpoint. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--color-navy);
-  border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-cream);
 }
 
-.site-header .container {
+.header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: var(--space-sm);
+  padding: 1rem;
 }
 
-.site-logo {
-  font-family: 'Cormorant Garamond', 'Sarabun', Georgia, serif;
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--font-family-serif);
+  font-weight: 900;
   font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gold);
 }
 
-.nav-toggle {
+.logo-subtitle {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--color-charcoal);
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding-block: 0.35rem;
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--color-gold-dark);
+  border-bottom: 2px solid var(--color-gold-dark);
+}
+
+.hamburger {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
   background: none;
   border: none;
-  padding: var(--space-xs);
-  width: 44px;
-  height: 44px;
-  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
-.nav-toggle span,
-.nav-toggle span::before,
-.nav-toggle span::after {
-  display: block;
-  position: absolute;
-  left: 50%;
+.hamburger .bar {
   width: 24px;
   height: 2px;
-  background-color: rgba(255, 255, 255, 0.85);
-  transform: translateX(-50%);
-  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  background-color: var(--color-charcoal);
 }
 
-.nav-toggle span { top: 50%; transform: translate(-50%, -50%); }
-.nav-toggle span::before { content: ""; top: -8px; }
-.nav-toggle span::after { content: ""; top: 8px; }
-
-.nav-toggle[aria-expanded="true"] span { background-color: transparent; }
-.nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
-.nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
-
-.main-nav > ul {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
+.site-main {
+  padding-block: 1rem;
 }
-
-.main-nav a {
-  font-size: var(--fs-small);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding-block: var(--space-xs);
-  position: relative;
-  color: rgba(255, 255, 255, 0.8);
-  transition: color var(--transition-fast);
-}
-
-.main-nav a:hover {
-  color: var(--color-accent);
-}
-
-.main-nav a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-fast);
-}
-
-.main-nav a:hover::after,
-.main-nav a[aria-current="page"]::after {
-  transform: scaleX(1);
-}
-
-/* -- Products dropdown ------------------------------------------------------- */
-
-.has-dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: var(--fs-small);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.8);
-  padding-block: var(--space-xs);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  transition: color var(--transition-fast);
-}
-
-.dropdown-toggle:hover,
-.has-dropdown:hover .dropdown-toggle {
-  color: var(--color-accent);
-}
-
-.dropdown-toggle .fa-chevron-down {
-  font-size: 0.7em;
-  transition: transform var(--transition-fast);
-}
-
-.has-dropdown:hover .dropdown-toggle .fa-chevron-down,
-.dropdown-toggle[aria-expanded="true"] .fa-chevron-down {
-  transform: rotate(180deg);
-}
-
-.dropdown {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  min-width: 180px;
-  background-color: var(--color-navy);
-  border: 1px solid rgba(201, 168, 76, 0.25);
-  border-radius: var(--radius);
-  padding-block: var(--space-xs);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
-  z-index: 200;
-}
-
-@media (min-width: 721px) {
-  .has-dropdown:hover .dropdown,
-  .has-dropdown:focus-within .dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-}
-
-.dropdown li {
-  border: none;
-}
-
-.dropdown a {
-  display: block;
-  padding: 0.5em var(--space-sm);
-  font-size: var(--fs-small);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  transition: color var(--transition-fast), background-color var(--transition-fast);
-}
-
-.dropdown a:hover,
-.dropdown a[aria-current="page"] {
-  color: var(--color-accent);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.dropdown a::after {
-  display: none;
-}
-
-@media (max-width: 720px) {
-  .nav-toggle {
-    display: block;
-  }
-
-  .main-nav {
-    position: fixed;
-    inset: 0;
-    top: 65px;
-    background-color: var(--color-navy);
-    transform: translateY(-8px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
-  }
-
-  .main-nav.is-open {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
-  }
-
-  .main-nav ul {
-    flex-direction: column;
-    gap: 0;
-    padding: var(--space-md) var(--gutter);
-  }
-
-  .main-nav li {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .main-nav a {
-    display: block;
-    padding-block: var(--space-sm);
-  }
-
-  .dropdown-toggle {
-    width: 100%;
-    padding-block: var(--space-sm);
-    justify-content: space-between;
-  }
-
-  .main-nav .dropdown {
-    position: static;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    background-color: rgba(255, 255, 255, 0.05);
-    display: none;
-    transition: none;
-  }
-
-  .has-dropdown.is-open .dropdown {
-    display: flex;
-  }
-
-  .dropdown a {
-    padding-left: calc(var(--space-sm) * 2);
-  }
-}
-
-/* -- Footer ------------------------------------------------------------------ */
 
 .site-footer {
-  background-color: var(--color-navy);
-  border-top: 1px solid rgba(201, 168, 76, 0.25);
-  padding-block: var(--space-lg) var(--space-md);
-  color: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid var(--color-border);
+  padding: 1rem;
+}
+
+/* Richer brand footer (address/contact/social columns). Opt-in per page via this
+   modifier class while it's being tried out — see products/curtains.html. */
+.site-footer--brand {
+  background-color: var(--color-charcoal);
+  border-top-color: var(--color-gold-dark);
+  padding: 3rem 1rem 1.5rem;
+  color: rgba(245, 239, 228, 0.7);
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-lg);
-  margin-bottom: var(--space-lg);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .footer-grid h4 {
-  font-size: var(--fs-small);
+  font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-accent);
-  margin-bottom: var(--space-sm);
+  color: var(--color-gold);
+  margin: 0 0 0.75rem;
 }
 
-.footer-grid address {
-  font-style: normal;
-  color: rgba(255, 255, 255, 0.55);
+.footer-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-family: var(--font-family-serif);
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin: 0 0 0.75rem;
 }
 
-.footer-grid ul li {
-  margin-bottom: var(--space-xs);
+.footer-logo-subtitle {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(245, 239, 228, 0.7);
 }
 
 .footer-contact-list {
   list-style: none;
   padding: 0;
-  margin-bottom: var(--space-sm);
+  margin: 0 0 0.75rem;
 }
 
 .footer-contact-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-sm);
-  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.75rem;
 }
 
 .footer-contact-list a {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: 0.5rem;
+  color: rgba(245, 239, 228, 0.7);
 }
 
 .footer-contact-list a:hover {
-  color: var(--color-accent);
+  color: var(--color-gold);
 }
 
 .footer-contact-list i {
   flex-shrink: 0;
+  width: 1em;
 }
 
-.footer-line > img {
+.footer-line img {
   display: block;
-  margin-bottom: var(--space-xs);
-}
-
-.footer-social {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-.footer-social a {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.25rem;
-  transition: color var(--transition-fast);
-}
-
-.footer-social a:hover {
-  color: var(--color-accent);
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: var(--space-sm);
-  font-size: var(--fs-small);
-  color: rgba(255, 255, 255, 0.35);
+  border-top: 1px solid rgba(245, 239, 228, 0.15);
+  padding-top: 1rem;
+  font-size: 0.875rem;
+  color: rgba(245, 239, 228, 0.4);
   text-align: center;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-md);
+    gap: 1.5rem;
+  }
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+/* Narrower variant, combined with .container (e.g. class="container container--article")
+   to override max-width for single-column reading content — article-style
+   subpages like products/curtains/curtain-fabrics.html. */
+.container--article {
+  max-width: var(--container-reading-width);
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .site-nav {
+    display: none;
+    width: 100%;
+  }
+
+  .site-nav.is-open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 0;
   }
 }

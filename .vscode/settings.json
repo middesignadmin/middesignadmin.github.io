@@ -1,5 +1,3 @@
 {
-  "files.associations": {
-    "*.frag": "html"
-  }
+    "liveServer.settings.port": 5501
 }

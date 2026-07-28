@@ -5,9 +5,6 @@
   changes, so they can crawl efficiently. Update this whenever a page is
   added or removed.
 
-  IMPORTANT: replace "https://www.example.com" below with the real domain
-  once one is chosen — every <loc> URL must use the live, final domain.
-
   After updating, you can submit this file's URL in Google Search Console
   (Sitemaps section) to help Google discover it faster, though it's also
   auto-discovered via the reference in robots.txt.
@@ -51,13 +48,49 @@
   </url>
 
   <url>
-    <loc>https://www.middesign.studio/about.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://www.middesign.studio/products/curtains/curtain-styles.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.middesign.studio/contact.html</loc>
+    <loc>https://www.middesign.studio/products/blinds/blinds-types.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/products/wallpaper/wallpaper-types.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/products/dividers/divider-types.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/portfolio-pages/project-bangna.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/portfolio-pages/project-spa.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/portfolio-pages/nakorn-pathom.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.middesign.studio/about-us.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
