@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
     hamburgerBtn.classList.toggle('is-active', isOpen);
     hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
   });
+
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+      primaryNav.classList.remove('is-open');
+      hamburgerBtn.classList.remove('is-active');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
 });
 
 document.addEventListener('DOMContentLoaded', function () {
