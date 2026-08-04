@@ -2016,6 +2016,29 @@
   text-align: center;
 }
 
+/* Generic section-to-section spacing for a section that has no dedicated
+   BEM container class of its own yet (e.g. contact.html's placeholder
+   sections) — same padding-block: 32px used by every other section
+   container site-wide (.portfolio-projects__container,
+   .gallery__container, .style-match__container, etc.), so consecutive
+   sections get the same breathing room as on other pages. */
+.section-block {
+  padding-block: 32px;
+}
+
+/* Generic heading to pair with .section-eyebrow when a section has no
+   dedicated BEM heading class of its own yet (e.g. contact.html's
+   placeholder sections) — same margin/type convention as the
+   component-specific heading classes (.style-match__heading,
+   .our-work__heading, etc.) so the eyebrow-to-heading gap stays
+   consistent site-wide. */
+.section-heading {
+  margin: 0 0 16px;
+  font-family: var(--font-family-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
 /* About: placeholder section, content to follow. Same section-title pattern
    as .our-work__heading / .testimonials__heading below — used site-wide. */
 .about__container {
@@ -2374,4 +2397,130 @@
   .float-btn--top {
     display: none;
   }
+}
+
+/* Contact buttons — large icon-only action buttons with an adjacent label (contact.html) */
+.contact-buttons {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 420px;
+}
+
+@media (min-width: 900px) {
+  .contact-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    max-width: 700px;
+  }
+}
+
+.contact-buttons__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contact-buttons__btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  color: var(--text-on-brand);
+  font-size: 1.6rem;
+  box-shadow: var(--elevation-resting);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.contact-buttons__btn--line {
+  background: #00b900;
+}
+
+.contact-buttons__btn--phone {
+  background: var(--color-gold-dark);
+}
+
+.contact-buttons__btn--facebook {
+  background: #1877f2;
+}
+
+@media (hover: hover) {
+  .contact-buttons__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--elevation-hover);
+  }
+}
+
+.contact-buttons__btn:focus-visible {
+  outline: 3px solid #1d9e75;
+  outline-offset: 2px;
+}
+
+.contact-buttons__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-buttons__label {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-gold-dark);
+}
+
+.contact-buttons__value {
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+@media (min-width: 900px) {
+  .contact-buttons__btn {
+    width: 72px;
+    height: 72px;
+    font-size: 1.75rem;
+  }
+}
+
+/* Location address (contact.html) — icon + continuous-text address, Thai
+   addresses are conventionally written as one flowing line rather than
+   broken across multiple lines. */
+.contact-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  font-style: normal;
+  color: var(--color-text);
+}
+
+.contact-address__icon {
+  flex-shrink: 0;
+  margin-top: 0.2em;
+  color: var(--color-gold-dark);
+  font-size: 1.1rem;
+}
+
+/* Location map (contact.html) — small embedded Google Map under the
+   address, no API key needed (uses the public ?q=...&output=embed
+   format). Capped width keeps it modest rather than a full-bleed hero
+   photo. */
+.contact-map {
+  margin-top: 16px;
+  max-width: 400px;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--color-border);
+}
+
+.contact-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
