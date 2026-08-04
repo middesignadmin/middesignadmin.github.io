@@ -28,12 +28,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css">
+  <link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css"></noscript>
   <link rel="stylesheet" href="../css/components.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Alex+Brush&family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -238,6 +241,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="footer-bottom">
         &copy; 2026 MID Design Studio Co.,Ltd. All rights reserved.
+        <span aria-hidden="true"> &middot; </span>
+        <a href="../privacy-policy.html">นโยบายความเป็นส่วนตัว</a>
       </div>
     </div>
   </footer>

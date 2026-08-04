@@ -158,6 +158,15 @@
   text-align: center;
 }
 
+.footer-bottom a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.footer-bottom a:hover {
+  color: var(--color-gold);
+}
+
 @media (max-width: 768px) {
   .footer-grid {
     grid-template-columns: 1fr;
