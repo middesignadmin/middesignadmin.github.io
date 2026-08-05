@@ -2251,6 +2251,20 @@
   color: #fff;
 }
 
+.projects__card-name {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.projects__card-category {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 @media (min-width: 900px) {
   .projects__grid {
     grid-template-columns: repeat(3, 1fr);
