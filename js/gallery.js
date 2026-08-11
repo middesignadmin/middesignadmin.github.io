@@ -3,8 +3,29 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
+  var lightboxIsOpen = false;
+  var closingFromPopstate = false;
+
   var lightbox = GLightbox({
-    selector: '.glightbox'
+    selector: '.glightbox',
+    onOpen: function () {
+      lightboxIsOpen = true;
+      history.pushState({ glightboxOpen: true }, '');
+    },
+    onClose: function () {
+      lightboxIsOpen = false;
+      if (!closingFromPopstate) {
+        history.back();
+      }
+      closingFromPopstate = false;
+    }
+  });
+
+  window.addEventListener('popstate', function () {
+    if (lightboxIsOpen) {
+      closingFromPopstate = true;
+      lightbox.close();
+    }
   });
 
   var lastGalleryDestination = null;
