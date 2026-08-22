@@ -880,13 +880,6 @@
   .gallery__item {
     flex: initial;
   }
-
-  /* Modifier for pages with fewer than 5 gallery photos available (currently
-     products/dividers.html, 3 real photos so far — remove this modifier once
-     a 4th/5th photo exists and the grid should go back to 5 columns). */
-  .gallery__list--3up {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* Plain divider line: same gold top-border accent used by .style-match__container /
