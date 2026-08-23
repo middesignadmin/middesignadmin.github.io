@@ -28,6 +28,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link rel="stylesheet" href="../vendor/glightbox/glightbox.min.css"></noscript>
   <link rel="stylesheet" href="../css/components.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,6 +122,54 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
+  <section class="gallery" aria-label="Wallpaper photo gallery">
+    <div class="gallery__container container">
+      <p class="gallery__eyebrow">หลากหลายลวดลาย หลากหลายสไตล์</p>
+      <ul class="gallery__list">
+        <li class="gallery__item">
+          <a class="gallery__link glightbox" href="../images/wallpaper/wallpaper-marble.webp"
+             data-glightbox="type: image"
+             data-gtm-event="quick_gallery_open" data-gtm-section="gallery">
+            <img class="gallery__thumb" src="../images/wallpaper/wallpaper-marble-4-3.webp"
+                 alt="Gold Thai-motif damask wallpaper backlit behind a marble reception counter" loading="lazy">
+          </a>
+        </li>
+        <li class="gallery__item">
+          <a class="gallery__link glightbox" href="../images/wallpaper/wallpaper-sky.webp"
+             data-glightbox="type: image"
+             data-gtm-event="quick_gallery_open" data-gtm-section="gallery">
+            <img class="gallery__thumb" src="../images/wallpaper/wallpaper-sky-4-3.webp"
+                 alt="Blue sky and cloud pattern wallpaper in a bedroom with sheer green curtains" loading="lazy">
+          </a>
+        </li>
+        <li class="gallery__item">
+          <a class="gallery__link glightbox" href="../images/wallpaper/wallpaper-vege.webp"
+             data-glightbox="type: image"
+             data-gtm-event="quick_gallery_open" data-gtm-section="gallery">
+            <img class="gallery__thumb" src="../images/wallpaper/wallpaper-vege-4-3-small.webp"
+                 alt="Green banana leaf pattern wallpaper on a wall beside black venetian blinds" loading="lazy">
+          </a>
+        </li>
+        <li class="gallery__item">
+          <a class="gallery__link glightbox" href="../images/wallpaper/wallpaper-pink.webp"
+             data-glightbox="type: image"
+             data-gtm-event="quick_gallery_open" data-gtm-section="gallery">
+            <img class="gallery__thumb" src="../images/wallpaper/wallpaper-pink-4-3.webp"
+                 alt="Textured pink damask wallpaper panel framed by white wall molding" loading="lazy">
+          </a>
+        </li>
+        <li class="gallery__item">
+          <a class="gallery__link glightbox" href="../images/wallpaper/wallpaper-town.webp"
+             data-glightbox="type: image"
+             data-gtm-event="quick_gallery_open" data-gtm-section="gallery">
+            <img class="gallery__thumb" src="../images/wallpaper/wallpaper-town-4-3.webp"
+                 alt="Taupe scalloped wave pattern wallpaper above a built-in cabinet with wood flooring" loading="lazy">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
   <section class="style-match style-match--overlap" aria-label="Choose the style that suits you">
     <div class="style-match__container container">
       <div class="style-match__layout">
@@ -191,7 +241,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <hr class="section-divider container">
+  <section class="our-work" aria-label="Our work">
+    <div class="our-work__container container">
+      <p class="section-eyebrow">OUR WORK</p>
+      <h2 class="our-work__heading">ตัวอย่างผลงาน</h2>
+      <ul class="our-work__grid">
+        <li class="our-work__item">
+          <a class="our-work__link glightbox" href="../images/portfolio/wallpaper/wallpaper-blackwhite.webp"
+             data-glightbox="type: image"
+             data-gtm-event="gallery_open" data-gtm-section="our_work">
+            <img class="our-work__thumb" src="../images/portfolio/wallpaper/wallpaper-blackwhite-square.webp"
+                 alt="Black and white scalloped brushstroke pattern wallpaper above a wood cabinet" loading="lazy">
+          </a>
+        </li>
+        <li class="our-work__item">
+          <a class="our-work__link glightbox" href="../images/portfolio/wallpaper/wallpaper-angels.webp"
+             data-glightbox="type: image"
+             data-gtm-event="gallery_open" data-gtm-section="our_work">
+            <img class="our-work__thumb" src="../images/portfolio/wallpaper/wallpaper-angels-square.webp"
+                 alt="Ornate tile-print wallpaper in a stairwell corner with gilded cherub figurines" loading="lazy">
+          </a>
+        </li>
+        <li class="our-work__item">
+          <a class="our-work__link glightbox" href="../images/portfolio/wallpaper/wallpaper-install.webp"
+             data-glightbox="type: image"
+             data-gtm-event="gallery_open" data-gtm-section="our_work">
+            <img class="our-work__thumb" src="../images/portfolio/wallpaper/wallpaper-install-square.webp"
+                 alt="Technician on a ladder installing curtain track beside pink floral wallpaper" loading="lazy">
+          </a>
+        </li>
+      </ul>
+
+      <div class="our-work__cta">
+        <a class="btn btn--secondary" href="../portfolio.html#wallpaper-examples"
+           data-gtm-event="our_work_view_portfolio" data-gtm-section="our_work">
+          <span class="fas fa-images" aria-hidden="true"></span> ผลงาน <span class="fas fa-arrow-right" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <section class="why-us" aria-label="Why choose us">
     <div class="why-us__container container">
@@ -317,5 +405,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <script src="../js/main.js"></script>
+  <script src="../vendor/glightbox/glightbox.min.js"></script>
+  <script src="../js/gallery.js"></script>
 </body>
 </html>
