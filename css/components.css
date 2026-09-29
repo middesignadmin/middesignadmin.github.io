@@ -1177,6 +1177,23 @@
   text-decoration: underline;
 }
 
+/* Intro text + Facebook line under the H1 on portfolio.html. Only the word
+   "Facebook" itself is a link (gold-dark, underlined, no button chrome) —
+   the rest of the sentence is plain text, so it reads as an inline mention
+   with a link, not a call-to-action. */
+.portfolio-intro__text {
+  margin-top: 8px;
+}
+
+.portfolio-intro__facebook-line {
+  margin-top: 8px;
+}
+
+.portfolio-intro__facebook-link {
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
 /* Desktop: one row of four, matching the trust-strip's 900px four-column layout. */
 @media (min-width: 900px) {
   .steps__container {
@@ -1934,6 +1951,8 @@
 .our-work__cta {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 24px;
 }
 
