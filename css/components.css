@@ -2580,6 +2580,40 @@
    address, no API key needed (uses the public ?q=...&output=embed
    format). Capped width keeps it modest rather than a full-bleed hero
    photo. */
+/* Our location: text + showroom photo (contact.html). Mobile stacks text above
+   the photo (photo capped at the map's 400px); desktop 900px+ goes
+   text-left/photo-right, same 1fr 1fr grid as .contact-hero__layout. */
+.contact-showroom__layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-showroom {
+  margin: 0;
+  max-width: 400px;
+}
+
+.contact-showroom__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+@media (min-width: 900px) {
+  .contact-showroom__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 48px;
+  }
+
+  .contact-showroom {
+    max-width: none;
+  }
+}
+
 .contact-map {
   margin-top: 16px;
   max-width: 400px;
