@@ -483,6 +483,13 @@
   border: 1px solid var(--color-gold-dark);
 }
 
+/* Facebook-blue variant of a secondary button: solid blue, white text/icon. */
+.btn--facebook-outline {
+  background: #1877f2;
+  color: #fff;
+  border-color: #1877f2;
+}
+
 /* hover: hover excludes touch devices, which have no mouseleave to clear
    :hover after a tap — without this guard, the button gets stuck in the
    hover color until the user taps elsewhere on the page. */
@@ -494,6 +501,12 @@
   .btn--secondary:hover {
     background: var(--color-gold-dark);
     color: var(--color-cream);
+  }
+
+  .btn--facebook-outline:hover {
+    background: #166fe5;
+    border-color: #166fe5;
+    color: #fff;
   }
 }
 
